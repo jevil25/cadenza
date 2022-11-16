@@ -1,6 +1,6 @@
 @font-face{
     font-family: 'headingfont';
-    src: url('./fonts/howells.ttf')
+    src: url('../fonts/howells.ttf')
          format('truetype');
 }
 
@@ -14,13 +14,11 @@
 
 body{
     position: relative;
-    background-image: url("./images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.png");
+    background-image: url("../Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.png");
     background-repeat:no-repeat;
-    background-size:100% 110vh;
+    background-size:100% 100vh;
     z-index: -1;
     overflow: hidden;
-    position: relative;
-    top:130px;
 }
 
 .text{
@@ -29,7 +27,7 @@ body{
     font-size: xx-large;
     font-weight: bolder;
     left:65px;
-    bottom: 130px;
+    bottom: 40px;
 }
 
 .button{
@@ -44,12 +42,12 @@ body{
     margin-top: 570px;
     margin-left: 65px;
     position: relative;
-    bottom: 620px;
+    bottom: 530px;
 }
 
 .logo{
     position: relative;
-    bottom: 150px;
+    bottom: 40px;
     z-index: 1;
     width: 450px;
     height: auto;

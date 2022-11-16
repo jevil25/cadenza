@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="./css/signup.css">
+    <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="left">
+            <div class="logo">
+                <img src="./cadenza logo.png" class="logo">
+            </div>
+            <div class="symbols">
+                <a href=""><i class="fa-brands fa-instagram fa-xl"></i></a>
+                <a href=""><i class="fa-brands fa-facebook fa-xl"></i></a>
+                <a href=""><i class="fa-brands fa-twitter fa-xl"></i></a>
+            </div>
+        </div>
+        <form action="/signup" method="post">
+            <div class="login_form right">
+                <input type="text" placeholder="Full Name" name="fullName" class="button"><br>
+                <input type="text" placeholder="Email" name="email" class="button"><br>
+                <input type="text" placeholder="Ph Number" name="phNumber" class="button" maxlength="10"><br>
+                <input type="text" placeholder="Password" name="password" class="button"><br>
+                <input type="text" placeholder="Confirm Password" name="confirmPassword" class="button"><br>
+                <button class="submit_btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
