@@ -66,3 +66,96 @@ main{
   right: -160px;
   bottom: 30px;
 }
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  position: relative;
+  left: 55px;
+}
+
+.playpause-track, .prev-track, .next-track {
+  padding: 25px;
+  opacity: 0.8;
+  color: white;
+  /* Smoothly transition the opacity */
+  transition: opacity .2s;
+}
+
+.playpause-track:hover, .prev-track:hover, .next-track:hover {
+  opacity: 1.0;
+  color: white;
+}
+
+.slider_container {
+  width: 75%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* Modify the appearance of the slider */
+.seek_slider, .volume_slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: black;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  color: white;
+}
+
+/* Modify the appearance of the slider thumb */
+.seek_slider::-webkit-slider-thumb, .volume_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: white;
+  cursor: pointer;
+  border-radius: 50%;
+  color: white;
+}
+
+.seek_slider:hover, .volume_slider:hover {
+  opacity: 1.0;
+  color: white;
+}
+
+.seek_slider {
+  width: 60%;
+  color: white;
+}
+
+.volume_slider {
+  width: 30%;
+  color: white;
+}
+
+.current-time, .total-duration {
+  padding: 10px;
+  color: white;
+}
+
+i.fa-volume-down, i.fa-volume-up {
+  padding: 10px;
+  color: white;
+}
+
+i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
+  cursor: pointer;
+  color: white;
+}
+
+.player{
+  position: relative;
+  bottom: 40px;
+  left: 50px;
+}
