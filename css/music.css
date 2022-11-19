@@ -1,6 +1,10 @@
+@font-face {
+  font-family: "body-grotesque";
+  src: url(../body-grotesque.slim-bold.ttf);
+}
+
 body {
   background: black;
-  overflow: hidden;
 }
 
 .logo{
@@ -18,21 +22,25 @@ body {
 .search{
   position: relative;
   top:20px;
+  left: 250px;
 }
 
 .search-box{
   border-radius: 20px;
-  padding:10px 30px;
+  padding:10px 90px;
   border: transparent;
 }
 
 h1{
   color: white;
   font-size: 70px;
+  width:600px;
   position: relative;
   left: 60px;
   top:-40px;
-  font-weight: 400;
+  font-weight: 100;
+  letter-spacing: 0.20rem;
+  /* font-family: "body-grotesque"; */
 }
 
 .text{
@@ -45,14 +53,14 @@ h1{
 
 main{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .pic{
   width: 300px;
 }
 
-.frame{
+.frame1{
   border: 20px solid white;
   width:300px;
   height: 300px;
@@ -61,10 +69,10 @@ main{
   border-bottom-width: 100px;
 }
 
-.right{
+.right1{
   position: relative;
-  right: -160px;
-  bottom: 30px;
+  right: 70px;
+  bottom:30px;
 }
 
 .buttons {
@@ -109,6 +117,7 @@ main{
   -webkit-transition: .2s;
   transition: opacity .2s;
   color: white;
+  background-color: white;
 }
 
 /* Modify the appearance of the slider thumb */
@@ -158,4 +167,43 @@ i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
   position: relative;
   bottom: 40px;
   left: 50px;
+}
+
+.info{
+  color: white;
+  font-size: 50px;
+}
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  float: right;
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 100px; /* Stay at the top */
+  right: 60px;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  margin-top: 10px;
+  border: transparent;
+  border-bottom: 1px solid;
+  color: white;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.atext{
+  font-size: x-large;
+  color: white;
 }

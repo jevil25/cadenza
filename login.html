@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Signup</title>
+    <link rel="stylesheet" href="./css/signup.css">
+    <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
+    <div class="main">
+        <div class="left">
+            <div class="logo">
+                <img src="./images/cadenza logo.png" class="logo">
+            </div>
+            <div class="symbols">
+                <a href=""><i class="fa-brands fa-instagram fa-xl"></i></a>
+                <a href=""><i class="fa-brands fa-facebook fa-xl"></i></a>
+                <a href=""><i class="fa-brands fa-twitter fa-xl"></i></a>
+            </div>
+        </div>
+        <form action="/signup" method="post">
+            <div class="login_form right">
+                <form action="/music" method="post">
+                    <input type="email" placeholder="Email" name="email" class="button" required autocomplete="off"><br>
+                    <input type="password" placeholder="Password" name="password" class="button" required autocomplete="off"><br>
+                    <button class="submit_btn">Login</button>
+                </form>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

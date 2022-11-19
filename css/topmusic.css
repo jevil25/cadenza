@@ -1,0 +1,112 @@
+body{
+    position: relative;
+    background-image: url("../images/topmusicimage.png");
+    background-repeat:no-repeat;
+    background-size:100% 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 40px;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    z-index: 1;
+    overflow: auto;
+    height: 270px;
+  }
+
+  .top{
+    min-width: 320px;
+  }
+
+  .chart{
+    min-width: 210px;
+  }
+
+  .trends{
+    min-width: 250px;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 20px;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: white;}
+
+  .main{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+  }
+
+  .left, .right{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .middle{
+    display: grid;
+    grid-template-rows: 25vh 25vh 25vh 25vh;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .charts{
+    margin-top: 4vh;
+    padding: 10px 60px;
+    font-size: xx-large;
+    font-weight: 500;
+}
+
+  .vmid{
+    margin-top: 10vh;
+    padding: 10px 60px;
+    font-size: xx-large;
+    font-weight: 500;
+  }
+
+  .s_artist{
+    margin-top: 40px;
+  }
+
+  .s_artist,.s_album{
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border:transparent;
+  }

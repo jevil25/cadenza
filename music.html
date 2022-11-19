@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadenza</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="css/music.css">
 </head>
 <body>
     <div class="navbar">
         <div>
-            <img src="./cadenza logo.png" alt="logo" class="logo">
+            <img src="./images/cadenza logo.png" alt="logo" class="logo">
         </div>
         <div class="search">
-            <input type="search" class="search-box">
+            <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
         </div>
     </div>
     <main>
@@ -33,18 +34,26 @@
                 </div>
                 <div class="buttons">
                     <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
-                    <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-play-circle fa-5x"></i></div>
+                    <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-solid fa-play fa-3x"></i></div>
                     <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
                 </div>
             </div>
         </div>
-        <div class="right">
-            <div class="music_image frame">
-                <img src="./asitwas.jpg" alt="albumpic" class="pic">
+        <div class="right1">
+            <div class="music_image frame1">
+                <img src="./images/asitwas.jpg" alt="albumpic" class="pic">
             </div>
         </div>
+        <div class="sidenav">
+            <span class="atext">More from the Artist</span>
+            <a href="#" class="sideinfo">Watermelon Sugar</a>
+            <a href="#" class="sideinfo">Sign of times</a>
+            <a href="#" class="sideinfo">Story of my life</a>
+            <a href="#" class="sideinfo">Adore you</a>
+          </div>
     </main>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="music.js"></script>
 </html>

@@ -26,6 +26,12 @@ let curr_track = document.createElement('audio');
 // Define the tracks that have to be played
 let track_list = [
   {
+    name: "As It Was",
+    artist: "Harry Styles",
+    image: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
+    path: "./harry_styles_as_it_was_official_video_6420019460565744984.mp3"
+  },
+  {
     name: "Night Owl",
     artist: "Broke For Free",
     image: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
@@ -47,16 +53,18 @@ let track_list = [
 
 function random_bg_color() {
 
-  // Get a number between 64 to 256 (for getting lighter colors)
-  let red = Math.floor(Math.random() * 256) + 64;
-  let green = Math.floor(Math.random() * 256) + 64;
-  let blue = Math.floor(Math.random() * 256) + 64;
+  // Get a number between 64 to 200 (for getting lighter colors and not white)
+  let red = Math.floor(Math.random() * 200);
+  let green = Math.floor(Math.random() * 200);
+  let blue = Math.floor(Math.random() * 200);
 
   // Construct a color withe the given values
   let bgColor = "rgb(" + red + "," + green + "," + blue + ")";
+  let bgColor1= "rgb(" + red+10 + "," + green+10 + "," + blue+10 + ")";
 
   // Set the background to that color
   document.body.style.background = bgColor;
+  document.getElementsByClassName(".sidenav").style.background = bgColor;
 }
 
 function loadTrack(track_index) {
@@ -65,19 +73,14 @@ function loadTrack(track_index) {
   curr_track.src = track_list[track_index].path;
   curr_track.load();
 
-  track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
-  track_name.textContent = track_list[track_index].name;
-  track_artist.textContent = track_list[track_index].artist;
-  now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
-
   updateTimer = setInterval(seekUpdate, 1000);
   curr_track.addEventListener("ended", nextTrack);
   random_bg_color();
 }
 
 function resetValues() {
-  curr_time.textContent = "00:00";
-  total_duration.textContent = "00:00";
+  curr_time.innerHTML = "00:00";
+  total_duration.innerHTML = "00:00";
   seek_slider.value = 0;
 }
 
@@ -92,13 +95,13 @@ function playpauseTrack() {
 function playTrack() {
   curr_track.play();
   isPlaying = true;
-  playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+  playpause_btn.innerHTML = '<i class="fa fa-solid fa-pause fa-3x"></i>';
 }
 
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';;
+  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';;
 }
 
 function nextTrack() {
@@ -143,8 +146,7 @@ function seekUpdate() {
     if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
     if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
     if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
-
-    curr_time.textContent = currentMinutes + ":" + currentSeconds;
-    total_duration.textContent = durationMinutes + ":" + durationSeconds;
+    curr_time.innerHTML = currentMinutes + ":" + currentSeconds;
+    total_duration.innerHTML = durationMinutes + ":" + durationSeconds;
   }
 }
