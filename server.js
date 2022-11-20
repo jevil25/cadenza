@@ -1,0 +1,74 @@
+//packages
+const express = require("express"); //interact with html file
+const bodyParser=require("body-parser"); //to get data from user
+const mongoose=require("mongoose"); //package to connect to db
+const bcrypt=require("bcryptjs");//package to hash the password (one way)
+const multer = require('multer');//package to upload and fetch images
+const fs=require("fs");//package to read files given by the user
+const hbs=require("express-handlebars");//used for hbs file soo as to use js componenets for displaying images
+// let global_id;//used to store id to retrieve images
+const {execSync} = require('child_process');//used to cause delays and sleeps
+const cookieParser = require("cookie-parser");//used to store cookies for user sessions
+const sessions = require('express-session');//used to create sessions
+
+mongoose.connect("mongodb+srv://jevil2002:aaron2002@jevil257.lipykl5.mongodb.net/cadenza",{
+    useNewUrlParser:true,
+    useUnifiedTopology:true,
+    //useCreateIndex:true
+}).then(()=>{
+    console.log("connection sucessfull");
+}).catch((e)=>{
+    console.log(e);
+});
+const { response } = require("express");
+//db declaration
+const regSchema=new mongoose.Schema({
+    fullname:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    number:{
+        type:Number,
+        required:true,
+        unique:true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    premium:{
+        type:String,
+        required:true
+    }
+});
+
+regSchema.pre("save",async function(next){
+    this.password= await bcrypt.hash(this.password,10);
+    this.recoveryCode= await bcrypt.hash(this.recoveryCode, 10);
+    next();
+});
+
+const Register = new mongoose.model("Project", regSchema);
+
+module.exports={Register}; //sends data to database
+
+const app=express();
+app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
+const path=__dirname + '/public';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.listen(3000,function(){
+    console.log("server is live on 3000")
+});
+
+app.get('/',function(req,res){ 
+    res.sendFile(path+"/index.html");
+});
