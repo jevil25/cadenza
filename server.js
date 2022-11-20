@@ -75,7 +75,6 @@ app.post('/signup', async function(req,res){
     try{
         const password=req.body.password;
         const confirmpassword=req.body.confirm;
-        console.log(password+confirmpassword)
         if(password===confirmpassword){
             if(req.body.Premium!="premium"){
                 const premium=0;
@@ -95,5 +94,21 @@ app.post('/signup', async function(req,res){
         }
     }catch(e){
         res.status(400).send(e);
+    }
+});
+
+app.post("/music",async function(req,res){//login verification
+    try{
+        const email=req.body.email;
+        const password=req.body.password;
+        const useremail=await Register.findOne({email:email});
+        const verify=await bcrypt.compare(password,useremail.password);
+        if(verify){
+            res.status(201).sendFile(path+"/topmusic.html");
+        }else{
+            res.send("invalid email or password")
+        }
+    }catch(error){
+        res.status(400).send("invalid email or password");
     }
 });

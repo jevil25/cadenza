@@ -101,23 +101,27 @@ function playTrack() {
 function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';;
+  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
 }
 
 function nextTrack() {
+  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
   if (track_index < track_list.length - 1)
     track_index += 1;
   else track_index = 0;
   loadTrack(track_index);
-  playTrack();
+  isPlaying = false;
+  playpauseTrack();
 }
 
 function prevTrack() {
+  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
   if (track_index > 0)
     track_index -= 1;
   else track_index = track_list.length;
   loadTrack(track_index);
-  playTrack();
+  isPlaying = false;
+  playpauseTrack();
 }
 
 function seekTo() {
