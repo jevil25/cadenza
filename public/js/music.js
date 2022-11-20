@@ -29,7 +29,7 @@ let track_list = [
     name: "As It Was",
     artist: "Harry Styles",
     image: "https://images.pexels.com/photos/2264753/pexels-photo-2264753.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
-    path: "./harry_styles_as_it_was_official_video_6420019460565744984.mp3"
+    path: "songs/harry_styles_as_it_was_official_video_6420019460565744984.mp3"
   },
   {
     name: "Night Owl",

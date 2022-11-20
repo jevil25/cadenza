@@ -33,7 +33,7 @@ const regSchema=new mongoose.Schema({
         unique:true
     },
     number:{
-        type:Number,
+        type:String,
         required:true,
         unique:true
     },
@@ -42,14 +42,12 @@ const regSchema=new mongoose.Schema({
         required:true
     },
     premium:{
-        type:String,
-        required:true
+        type:String
     }
 });
 
 regSchema.pre("save",async function(next){
     this.password= await bcrypt.hash(this.password,10);
-    this.recoveryCode= await bcrypt.hash(this.recoveryCode, 10);
     next();
 });
 
@@ -71,4 +69,31 @@ app.listen(3000,function(){
 
 app.get('/',function(req,res){ 
     res.sendFile(path+"/index.html");
+});
+
+app.post('/signup', async function(req,res){
+    try{
+        const password=req.body.password;
+        const confirmpassword=req.body.confirm;
+        console.log(password+confirmpassword)
+        if(password===confirmpassword){
+            if(req.body.Premium!="premium"){
+                const premium=0;
+            }
+            const premium=req.body.Premium;
+            const register1= new Register({
+            fullname:req.body.fullName,
+            email:req.body.email,
+            number:req.body.phNumber,
+            password:password,
+            premium:premium
+            })
+            const registered=await register1.save();
+            res.status(201).sendFile(path+"/topmusic.html");
+        }else{
+            res.send("passwords are not same");
+        }
+    }catch(e){
+        res.status(400).send(e);
+    }
 });
