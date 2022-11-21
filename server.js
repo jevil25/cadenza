@@ -48,6 +48,7 @@ const regSchema=new mongoose.Schema({
 
 regSchema.pre("save",async function(next){
     this.password= await bcrypt.hash(this.password,10);
+    this.number= await bcrypt.hash(this.number,10);
     next();
 });
 
@@ -103,6 +104,7 @@ app.post("/music",async function(req,res){//login verification
         const password=req.body.password;
         const useremail=await Register.findOne({email:email});
         const verify=await bcrypt.compare(password,useremail.password);
+        const verifyph=await bcrypt.compare(password,useremail.number);
         if(verify){
             res.status(201).sendFile(path+"/topmusic.html");
         }else{
