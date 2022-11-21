@@ -21,6 +21,8 @@ mongoose.connect("mongodb+srv://jevil2002:aaron2002@jevil257.lipykl5.mongodb.net
     console.log(e);
 });
 const { response } = require("express");
+const { NULL } = require("node-sass");
+const { verify } = require("crypto");
 //db declaration
 const regSchema=new mongoose.Schema({
     fullname:{
@@ -48,13 +50,14 @@ const regSchema=new mongoose.Schema({
 
 regSchema.pre("save",async function(next){
     this.password= await bcrypt.hash(this.password,10);
-    this.number= await bcrypt.hash(this.number,10);
     next();
 });
 
 const Register = new mongoose.model("Project", regSchema);
 
 module.exports={Register}; //sends data to database
+
+const axios = require('axios');
 
 const app=express();
 app.use(express.static(__dirname + '/public'));
@@ -88,6 +91,13 @@ app.post('/signup', async function(req,res){
             password:password,
             premium:premium
             })
+            axios.get('https://emailvalidation.abstractapi.com/v1/?api_key=8ab765c832c244febcd6a7b096e9ee6b&email='+req.body.email)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
             const registered=await register1.save();
             res.status(201).sendFile(path+"/topmusic.html");
         }else{
@@ -98,13 +108,22 @@ app.post('/signup', async function(req,res){
     }
 });
 
+
+function containsOnlyNumbers(str) {
+    return /^[0-9]+$/.test(str);
+  }
+
+
 app.post("/music",async function(req,res){//login verification
     try{
+        let useremail;
         const email=req.body.email;
         const password=req.body.password;
-        const useremail=await Register.findOne({email:email});
+        if(containsOnlyNumbers(email))
+            useremail=await Register.findOne({number:email});
+        else
+            useremail=await Register.findOne({email:email});
         const verify=await bcrypt.compare(password,useremail.password);
-        const verifyph=await bcrypt.compare(password,useremail.number);
         if(verify){
             res.status(201).sendFile(path+"/topmusic.html");
         }else{
