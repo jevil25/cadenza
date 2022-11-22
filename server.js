@@ -10,54 +10,7 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 const {execSync} = require('child_process');//used to cause delays and sleeps
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
-
-mongoose.connect("mongodb+srv://jevil2002:aaron2002@jevil257.lipykl5.mongodb.net/cadenza",{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-    //useCreateIndex:true
-}).then(()=>{
-    console.log("connection sucessfull");
-}).catch((e)=>{
-    console.log(e);
-});
-const { response } = require("express");
-const { NULL } = require("node-sass");
-const { verify } = require("crypto");
-//db declaration
-const regSchema=new mongoose.Schema({
-    fullname:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    number:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    password:{
-        type:String,
-        required:true
-    },
-    premium:{
-        type:String
-    }
-});
-
-regSchema.pre("save",async function(next){
-    this.password= await bcrypt.hash(this.password,10);
-    next();
-});
-
-const Register = new mongoose.model("Project", regSchema);
-
-module.exports={Register}; //sends data to database
-
-const axios = require('axios');
+const mysql = require('mysql');//used connect to mysql db
 
 const app=express();
 app.use(express.static(__dirname + '/public'));
@@ -68,8 +21,35 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.listen(3000,function(){
-    console.log("server is live on 3000")
+    console.log("Cadenza is live on 3000")
 });
+
+//MYSQL connection
+const pool=mysql.createPool({
+    connectionLimit : 10,
+    host            :'localhost',
+    user            :'root',
+    password        :'',
+    database        :'testcadenza'
+})
+
+//Get all data
+pool.getConnection((err, connection) => {
+    if(err) throw err
+    console.log("connected as id "+connection.threadId);
+    
+    //query(sqlString,callback)
+
+    // connection.query('SELECT * from LOGIN_DETAILS', (err,rows)=>{
+    //     connection.release() //return the connection to pool
+
+    //     if(!err){
+    //         console,console.log(rows);
+    //     }else{
+    //         console.log(err);
+    //     }
+    // })
+})
 
 app.get('/',function(req,res){ 
     res.sendFile(path+"/index.html");
@@ -91,13 +71,6 @@ app.post('/signup', async function(req,res){
             password:password,
             premium:premium
             })
-            axios.get('https://emailvalidation.abstractapi.com/v1/?api_key=8ab765c832c244febcd6a7b096e9ee6b&email='+req.body.email)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
             const registered=await register1.save();
             res.status(201).sendFile(path+"/topmusic.html");
         }else{
@@ -114,22 +87,50 @@ function containsOnlyNumbers(str) {
   }
 
 
+
 app.post("/music",async function(req,res){//login verification
     try{
         let useremail;
         const email=req.body.email;
         const password=req.body.password;
-        if(containsOnlyNumbers(email))
-            useremail=await Register.findOne({number:email});
-        else
-            useremail=await Register.findOne({email:email});
-        const verify=await bcrypt.compare(password,useremail.password);
-        if(verify){
-            res.status(201).sendFile(path+"/topmusic.html");
-        }else{
-            res.send("invalid email or password")
-        }
+        pool.getConnection((err, connection) => {
+            if(err) throw err
+            console.log("connected as id "+connection.threadId);
+            if(containsOnlyNumbers(email)){
+                connection.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
+                    connection.release() //return the connection to pool
+            
+                    if(rows[0] == undefined){
+                        res.send("invalid email or password")
+                    }
+
+                    if(!err && rows[0].password==password ){
+                        // console.log(rows[0].password)s
+                        res.status(201).sendFile(path+"/topmusic.html");
+                    }else{
+                        res.send("invalid email or password")
+                    }
+                })
+            }
+            else{
+                connection.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
+                    connection.release() //return the connection to pool
+                    
+                    if(rows[0] == undefined){
+                        res.send("invalid email or password")
+                    }
+
+                    if(!err && rows[0].password==password ){
+                        // console.log(rows[0].password)s
+                        res.status(201).sendFile(path+"/topmusic.html");
+                    }else{
+                        res.send("invalid email or password")
+                    }
+                })
+            }
+        });
     }catch(error){
-        res.status(400).send("invalid email or password");
-    }
+            res.status(400).send("invalid email or password "+error);
+        }
+
 });
