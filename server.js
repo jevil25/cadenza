@@ -64,15 +64,20 @@ app.post('/signup', async function(req,res){
                 const premium=0;
             }
             const premium=req.body.Premium;
-            const register1= new Register({
-            fullname:req.body.fullName,
-            email:req.body.email,
-            number:req.body.phNumber,
-            password:password,
-            premium:premium
-            })
-            const registered=await register1.save();
-            res.status(201).sendFile(path+"/topmusic.html");
+            pool.getConnection((err, connection) => {
+                if(err) throw err
+                console.log("connected as id "+connection.threadId);
+                    connection.query('INSERT into login_details (email,password,fullname,number,premium) values (?);',[[req.body.email,req.body.password,req.body.fullName,req.body.phNumber,premium]], (err,rows)=>{
+                        connection.release() //return the connection to pool
+    
+                        if(!err ){
+                            // console.log(rows[0].password)s
+                            res.status(201).sendFile(path+"/login.html");
+                        }else{
+                            res.send(err)
+                        }
+                    })
+                })
         }else{
             res.send("passwords are not same");
         }
