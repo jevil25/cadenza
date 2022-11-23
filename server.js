@@ -66,7 +66,7 @@ app.post('/signup', async function(req,res){
             const premium=req.body.Premium;
             pool.getConnection((err, connection) => {
                 if(err) throw err
-                console.log("connected as id "+connection.threadId);
+                console.log("insertion at "+connection.threadId);
                     connection.query('INSERT into login_details (email,password,fullname,number,premium) values (?);',[[req.body.email,req.body.password,req.body.fullName,req.body.phNumber,premium]], (err,rows)=>{
                         connection.release() //return the connection to pool
     
@@ -100,7 +100,7 @@ app.post("/music",async function(req,res){//login verification
         const password=req.body.password;
         pool.getConnection((err, connection) => {
             if(err) throw err
-            console.log("connected as id "+connection.threadId);
+            console.log("check credentials at "+connection.threadId);
             if(containsOnlyNumbers(email)){
                 connection.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
                     connection.release() //return the connection to pool
@@ -139,3 +139,11 @@ app.post("/music",async function(req,res){//login verification
         }
 
 });
+
+app.post('/playmusic', async function(req,res){
+    try{
+        console.log(req.body.songname)
+    }catch(err){
+        console.log("error: "+err)
+    }
+})
