@@ -12,40 +12,57 @@
     <div class="wrapper">
         <h1>Supercharge the week</h1>
         <div class="cards">
+            <form action="/getmusicglobal" method="post">
+                <div class="card">
+                    <div class="overlayer">
+                        <button><i class="far fa-play-circle"></i></button>
+                    </div>
+                    <img src="./images/region_global_large.jpg" alt="">
+                    <div class="title">
+                        <button>Global top 20</button>
+                    </div>
+                </div>	
+            </form>
+            <form action="/getmusicindia" method="post">
+                <div class="card">
+                    <div class="overlayer">
+                        <button><i class="far fa-play-circle"></i></button>
+                    </div>
+                    <img src="./images/region_in_large.jpg" alt="">
+                    <div class="title">
+                        <button>India top 20</button>
+                    </div>
+                </div>
+            </form>
             
+            <form action="/getmusictrend" method="post">
+                <div class="card">
+                    <div class="overlayer">
+                        <button><i class="far fa-play-circle"></i></button>
+                    </div>
+                    <img src="./images/region_global_large (2).jpg" alt="">
+                    <div class="title">
+                        <button>Trending</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="wrapper">
+        <h1>Artists</h1>
+        <div class="cards">
             <div class="card">
                 <div class="overlayer">
-                    <i class="far fa-play-circle"></i>
+                    <a onclick="song('Trending')"><i class="far fa-play-circle"></i></a>
                 </div>
-                <img src="https://i.pinimg.com/736x/02/b8/94/02b894f7ea6ad9f724648ee511ad018f--edm-music-house-music.jpg" alt="">
+                <img src="./images/region_global_large.jpg" alt="">
                 <div class="title">
-                    <a href="#">Global top 20</a>
-                </div>
-            </div>	
-
-            <div class="card">
-                <div class="overlayer">
-                    <i class="far fa-play-circle"></i>
-                </div>
-                <img src="https://i.pinimg.com/736x/02/b8/94/02b894f7ea6ad9f724648ee511ad018f--edm-music-house-music.jpg" alt="">
-                <div class="title">
-                    <a href="#">India top 20</a>
-                </div>
-            </div>
-            
-
-            <div class="card">
-                <div class="overlayer">
-                    <i class="far fa-play-circle"></i>
-                </div>
-                <img src="https://i.pinimg.com/736x/02/b8/94/02b894f7ea6ad9f724648ee511ad018f--edm-music-house-music.jpg" alt="">
-                <div class="title">
-                    <a href="#">Trending</a>
+                    <a onclick="song('Trending')">Global top 20</a>
                 </div>
             </div>
         </div>
     </div>
-        
     
 </body>
+<script src="./js/topmusic.js"></script>
 </html>

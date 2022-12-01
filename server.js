@@ -111,7 +111,7 @@ app.post("/music",async function(req,res){//login verification
 
                     if(!err && rows[0].password==password ){
                         // console.log(rows[0].password)s
-                        res.status(201).sendFile(path+"/topmusic.html");
+                        res.status(201).sendFile(path+"/topmusicnew.html");
                     }else{
                         res.send("invalid email or password")
                     }
@@ -127,7 +127,7 @@ app.post("/music",async function(req,res){//login verification
 
                     if(!err && rows[0].password==password ){
                         // console.log(rows[0].password)s
-                        res.status(201).sendFile(path+"/topmusic.html");
+                        res.status(201).sendFile(path+"/topmusicnew.html");
                     }else{
                         res.send("invalid email or password")
                     }
@@ -140,9 +140,63 @@ app.post("/music",async function(req,res){//login verification
 
 });
 
-app.post('/playmusic', async function(req,res){
+app.set('view engine', 'hbs') //view engine for handlebars page
+
+app.post('/getmusicglobal', async function(req,res){
     try{
+        app.set('view engine', 'hbs') //view engine for handlebars page
         console.log(req.body.songname)
+        pool.getConnection((err, connection) => {
+            if(err) throw err
+            console.log("connected as id "+connection.threadId);
+                connection.query('SELECT * from SONGS', (err,rows)=>{
+                    connection.release() //return the connection to pool
+                    console.log(rows)
+                    console.log(JSON.parse(JSON.stringify(rows)));
+                    let row=JSON.parse(JSON.stringify(rows));
+                    res.status(200).render(path+'/songs.hbs',{song:row})
+                })
+        })
+    }catch(err){
+        console.log("error: "+err)
+    }
+})
+
+app.post('/getmusicindia', async function(req,res){
+    try{
+        app.set('view engine', 'hbs') //view engine for handlebars page
+        console.log(req.body.songname)
+        pool.getConnection((err, connection) => {
+            if(err) throw err
+            console.log("connected as id "+connection.threadId);
+                connection.query('SELECT * from SONGS', (err,rows)=>{
+                    connection.release() //return the connection to pool
+                    console.log(rows)
+                    console.log(JSON.parse(JSON.stringify(rows)));
+                    let row=JSON.parse(JSON.stringify(rows));
+                    res.status(200).render(path+'/songs.hbs',{song:row})
+                })
+        })
+    }catch(err){
+        console.log("error: "+err)
+    }
+})
+
+app.post('/getmusictrend', async function(req,res){
+    try{
+        app.set('view engine', 'hbs') //view engine for handlebars page
+        console.log(req.body.songname)
+        pool.getConnection((err, connection) => {
+            if(err) throw err
+            console.log("connected as id "+connection.threadId);
+                connection.query('SELECT * from SONGS', (err,rows)=>{
+                    connection.release() //return the connection to pool
+                    console.log(rows)
+                    console.log(JSON.parse(JSON.stringify(rows)));
+                    let row=JSON.parse(JSON.stringify(rows));
+                    res.status(200).render(path+'/songs.hbs',{song:row})
+                })
+        })
     }catch(err){
         console.log("error: "+err)
     }

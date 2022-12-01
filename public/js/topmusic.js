@@ -1,11 +1,12 @@
-function playmusic(music){
-    let data = {songname: music};
+function song(name){
+    console.log(name)
+    let data = {songname: name};
 
-    fetch("/playmusic", {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'}, 
-    body: JSON.stringify(data)
-    }).then(res => {
-    console.log("Request complete! response:", res);
-    });
+    fetch("/getmusic", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify(data)
+        }).then(res => {
+        console.log("Request complete! response:", res);
+        });
 }

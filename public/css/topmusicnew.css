@@ -53,6 +53,25 @@ body {
 	text-decoration: none;
 }
 
+a{
+	top: -175px;
+	color: #fff;
+	position: relative;
+	font-size: 13px;
+	text-decoration: none;
+}
+
+button{
+	top: -175px;
+	color: #fff;
+	position: relative;
+	font-size: 13px;
+	text-decoration: none;
+	background-color: transparent;
+	border: transparent;
+	bottom:20px;
+}
+
 .card .overlayer {
 	top: 0;
 	right: 0;
@@ -69,6 +88,9 @@ body {
 	font-size: 73px;
 	margin-top: 103px;
 	transition: 100ms ease-in-out;
+	position: absolute;
+	top:170px;
+	right: -30px;
 }
 .fa-play-circle:hover {
 	transform: scale(1.1);
