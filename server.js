@@ -103,15 +103,20 @@ app.post("/music",async function(req,res){//login verification
             console.log("check credentials at "+connection.threadId);
             if(containsOnlyNumbers(email)){
                 connection.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
-                    connection.release() //return the connection to pool
             
                     if(rows[0] == undefined){
                         res.send("invalid email or password")
                     }
-
+                    app.set('view engine', 'hbs') //view engine for handlebars page
                     if(!err && rows[0].password==password ){
                         // console.log(rows[0].password)s
-                        res.status(201).sendFile(path+"/topmusicnew.html");
+                        connection.query('SELECT * from artist',[req.body.email], (err,rows)=>{
+                            connection.release() //return the connection to pool
+                            console.log(rows);
+                    
+                            app.set('view engine', 'hbs') //view engine for handlebars page
+                                res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
+                        })
                     }else{
                         res.send("invalid email or password")
                     }
@@ -124,7 +129,7 @@ app.post("/music",async function(req,res){//login verification
                     if(rows[0] == undefined){
                         res.send("invalid email or password")
                     }
-
+                    app.set('view engine', 'hbs') //view engine for handlebars page
                     if(!err && rows[0].password==password ){
                         // console.log(rows[0].password)s
                         res.status(201).sendFile(path+"/topmusicnew.html");

@@ -51,15 +51,19 @@
     <div class="wrapper">
         <h1>Artists</h1>
         <div class="cards">
-            <div class="card">
-                <div class="overlayer">
-                    <a onclick="song('Trending')"><i class="far fa-play-circle"></i></a>
-                </div>
-                <img src="./images/region_global_large.jpg" alt="">
-                <div class="title">
-                    <a onclick="song('Trending')">Global top 20</a>
-                </div>
-            </div>
+            {{#each artist}}
+                {{#if artist_name}}
+                    <div class="card">
+                        <div class="overlayer">
+                            <a onclick="song('Trending')"><i class="far fa-play-circle"></i></a>
+                        </div>
+                        <img src={{artist_pic}} alt="">
+                        <div class="title">
+                            <a onclick="song({{artist_name}})">{{artist_name}}</a>
+                        </div>
+                    </div>
+                {{/if}}
+            {{/each}}
         </div>
     </div>
     
