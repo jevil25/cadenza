@@ -21,8 +21,8 @@
                 {{#if song_name}}
                     <ul class="list-group list-group-horizontal-xl">
                         <li class="list-group-item flex-fill alist"><form action="/playmusic" method="post"><input type="text" value="{{song_name}}" name="songname" class="songname"><button>{{song_name}}</button></form></li>
-                        <li class="list-group-item flex-fill alist">{{artist_id}}</li>
-                        <li class="list-group-item flex-fill alist">{{genre_id}}</li>
+                        <li class="list-group-item flex-fill alist">{{artist_name}}</li>
+                        <li class="list-group-item flex-fill alist">{{genre_name}}</li>
                     </ul>
                 {{/if}}
             {{/each}}

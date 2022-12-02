@@ -159,7 +159,7 @@ app.post('/getmusicglobal', async function(req,res){
         pool.getConnection((err, connection) => {
             if(err) throw err
             console.log("connected as id "+connection.threadId);
-                connection.query('SELECT * from SONGS', (err,rows)=>{
+                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id', (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));
@@ -179,7 +179,7 @@ app.post('/getmusicindia', async function(req,res){
         pool.getConnection((err, connection) => {
             if(err) throw err
             console.log("connected as id "+connection.threadId);
-                connection.query('SELECT * from SONGS', (err,rows)=>{
+                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id', (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));
@@ -199,7 +199,7 @@ app.post('/getmusictrend', async function(req,res){
         pool.getConnection((err, connection) => {
             if(err) throw err
             console.log("connected as id "+connection.threadId);
-                connection.query('SELECT * from SONGS', (err,rows)=>{
+                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id', (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));
@@ -218,7 +218,7 @@ app.post('/playmusic',async function(req,res){
             pool.getConnection((err, connection) => {
                 if(err) throw err
                 console.log("connected as id "+connection.threadId);
-                connection.query("SELECT song_name,song_link,artist_name from SONGS S, ARTIST A where song_name='"+req.body.songname+"' and S.artist_id=A.artist_id;", (err,rows)=>{
+                connection.query("SELECT song_name,song_link,artist_name,song_pic_link from SONGS S, ARTIST A where song_name='"+req.body.songname+"' and S.artist_id=A.artist_id;", (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));

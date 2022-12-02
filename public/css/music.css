@@ -207,3 +207,8 @@ i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
   font-size: x-large;
   color: white;
 }
+
+button{
+  background-color: transparent;
+  border: transparent;
+}

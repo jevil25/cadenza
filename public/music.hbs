@@ -35,15 +35,15 @@
                     <div class="total-duration">00:00</div>
                 </div>
                 <div class="buttons">
-                    <div class="prev-track" onclick="prevTrack()"><i class="fa fa-step-backward fa-2x"></i></div>
-                    <div class="playpause-track" onclick="playpauseTrack()"><i class="fa fa-solid fa-play fa-3x"></i></div>
-                    <div class="next-track" onclick="nextTrack()"><i class="fa fa-step-forward fa-2x"></i></div>
+                    <div class="prev-track"><form action="/newsong" method="post"><button><i class="fa fa-step-backward fa-2x"></i></button></form></div>
+                    <div class="playpause-track" onclick="playpauseTrack('{{song_link}}')"><i class="fa fa-solid fa-play fa-3x"></i></div>
+                    <div class="next-track"><form action="/newsong" method="post"><button><i class="fa fa-step-forward fa-2x"></i></button></form></div>
                 </div>
             </div>
         </div>
         <div class="right1">
             <div class="music_image frame1">
-                <img src="" alt="albumpic" class="pic">
+                <img src="{{song_pic_link}}" alt="albumpic" class="pic">
             </div>
         </div>
         <div class="sidenav">

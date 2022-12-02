@@ -19,6 +19,7 @@ let total_duration = document.querySelector(".total-duration");
 let track_index = 0;
 let isPlaying = false;
 let updateTimer;
+let loaded=false;
 
 // Create new audio element
 let curr_track = document.createElement('audio');
@@ -67,15 +68,15 @@ function random_bg_color() {
   document.getElementsByClassName(".sidenav").style.background = bgColor;
 }
 
-function loadTrack(track_index) {
+function loadTrack(track1) {
   clearInterval(updateTimer);
   resetValues();
-  curr_track.src = track_list[track_index].path;
+  curr_track.src = track1;
   curr_track.load();
+  loaded=true;
 
   updateTimer = setInterval(seekUpdate, 1000);
   curr_track.addEventListener("ended", nextTrack);
-  random_bg_color();
 }
 
 function resetValues() {
@@ -84,15 +85,25 @@ function resetValues() {
   seek_slider.value = 0;
 }
 
-// Load the first track in the tracklist
-loadTrack(track_index);
+random_bg_color();
 
-function playpauseTrack() {
-  if (!isPlaying) playTrack();
-  else pauseTrack();
+function playpauseTrack(track1) {
+  if(!loaded){
+    if (!isPlaying) playTrack(track1);
+    else pauseTrack();
+  }else{
+    if (!isPlaying) {
+      curr_track.play();
+      isPlaying = true;
+      playpause_btn.innerHTML = '<i class="fa fa-solid fa-pause fa-3x"></i>';
+    }
+    else pauseTrack();
+  }
 }
 
-function playTrack() {
+function playTrack(track) {
+  loadTrack(track);
+  console.log(track);
   curr_track.play();
   isPlaying = true;
   playpause_btn.innerHTML = '<i class="fa fa-solid fa-pause fa-3x"></i>';
@@ -102,26 +113,6 @@ function pauseTrack() {
   curr_track.pause();
   isPlaying = false;
   playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
-}
-
-function nextTrack() {
-  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
-  if (track_index < track_list.length - 1)
-    track_index += 1;
-  else track_index = 0;
-  loadTrack(track_index);
-  isPlaying = false;
-  playpauseTrack();
-}
-
-function prevTrack() {
-  playpause_btn.innerHTML = '<i class="fa fa-solid fa-play fa-3x"></i>';
-  if (track_index > 0)
-    track_index -= 1;
-  else track_index = track_list.length;
-  loadTrack(track_index);
-  isPlaying = false;
-  playpauseTrack();
 }
 
 function seekTo() {
