@@ -159,7 +159,7 @@ app.post('/getmusicglobal', async function(req,res){
         pool.getConnection((err, connection) => {
             if(err) throw err
             console.log("connected as id "+connection.threadId);
-                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and s.chart_id=1', (err,rows)=>{
+                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and s.chart_id=1;', (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));

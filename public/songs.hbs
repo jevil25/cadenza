@@ -12,20 +12,22 @@
     <div class="container">
         <h1>Songs</h1>
         
-            <ul class="list-group list-group-horizontal-xl">
-                <li class="list-group-item flex-fill alist">Song Name</li>
-                <li class="list-group-item flex-fill alist">Artist</li>
-                <li class="list-group-item flex-fill alist">Genre</li>
-            </ul>
+            <table width="100%">
+                <tr>
+                    <td width="(100/3)%">Song Name</td>
+                    <td width="(100/3)%">Artist</td>
+                    <td width="(100/3)%">Genre</td>
+                </tr>
             {{#each song}}
                 {{#if song_name}}
-                    <ul class="list-group list-group-horizontal-xl">
-                        <li class="list-group-item flex-fill alist"><form action="/playmusic" method="post"><input type="text" value="{{song_name}}" name="songname" class="songname"><button>{{song_name}}</button></form></li>
-                        <li class="list-group-item flex-fill alist">{{artist_name}}</li>
-                        <li class="list-group-item flex-fill alist">{{genre_name}}</li>
-                    </ul>
+                    <tr>
+                        <td width="(100/3)%"><form action="/playmusic" method="post"><input type="text" value="{{song_name}}" name="songname" class="songname"><button>{{song_name}}</button></form></td>
+                        <td width="(100/3)%">{{artist_name}}</td>
+                        <td width="(100/3)%">{{genre_name}}</td>
+                    </tr>
                 {{/if}}
             {{/each}}
+            </table>
     </div>
 </body>
 </html>
