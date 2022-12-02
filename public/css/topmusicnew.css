@@ -98,4 +98,12 @@ button{
 }
 
 
+.playbutton{
+	position: absolute;
+	right: 150px;
+}
 
+input{
+	visibility: hidden;
+	display: none;
+}

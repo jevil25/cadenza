@@ -53,20 +53,20 @@
         <div class="cards">
             {{#each artist}}
                 {{#if artist_name}}
-                    <div class="card">
-                        <div class="overlayer">
-                            <a onclick="song('Trending')"><i class="far fa-play-circle"></i></a>
+                    <form action="/getmusicartist" method="post">
+                        <div class="card">
+                            <div class="overlayer">
+                                <button><i class="far fa-play-circle"></i></button>
+                            </div>
+                            <img src="{{artist_pic}}" alt="">
+                            <div class="title">
+                                <button><input type="text" value="{{artist_id}}" name="artistid">{{artist_name}}</button>
+                            </div>
                         </div>
-                        <img src={{artist_pic}} alt="">
-                        <div class="title">
-                            <a onclick="song({{artist_name}})">{{artist_name}}</a>
-                        </div>
-                    </div>
+                    </form>
                 {{/if}}
             {{/each}}
         </div>
     </div>
-    
 </body>
-<script src="./js/topmusic.js"></script>
 </html>
