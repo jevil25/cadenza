@@ -19,10 +19,12 @@
         </div>
     </div>
     <main>
+        {{#each song}}
+                {{#if song_name}}
         <div class="main">
-            <h1>As It Was</h1><br>
+            <h1>{{song_name}}</h1><br>
             <div class="text">
-                Artist: Harry Styles <br>
+                Artist: {{artist_name}} <br>
                 Length:  2:47<br>
                 Language: English<br>
             </div>
@@ -41,7 +43,7 @@
         </div>
         <div class="right1">
             <div class="music_image frame1">
-                <img src="./images/asitwas.jpg" alt="albumpic" class="pic">
+                <img src="" alt="albumpic" class="pic">
             </div>
         </div>
         <div class="sidenav">
@@ -51,6 +53,8 @@
             <a href="#" class="sideinfo">Story of my life</a>
             <a href="#" class="sideinfo">Adore you</a>
           </div>
+          {{/if}}
+          {{/each}}
     </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>

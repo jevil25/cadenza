@@ -124,7 +124,6 @@ app.post("/music",async function(req,res){//login verification
             }
             else{
                 connection.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
-                    connection.release() //return the connection to pool
                     
                     if(rows[0] == undefined){
                         res.send("invalid email or password")
@@ -132,7 +131,13 @@ app.post("/music",async function(req,res){//login verification
                     app.set('view engine', 'hbs') //view engine for handlebars page
                     if(!err && rows[0].password==password ){
                         // console.log(rows[0].password)s
-                        res.status(201).sendFile(path+"/topmusicnew.html");
+                        connection.query('SELECT * from artist',[req.body.email], (err,rows)=>{
+                            connection.release() //return the connection to pool
+                            console.log(rows);
+                    
+                            app.set('view engine', 'hbs') //view engine for handlebars page
+                                res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
+                        })
                     }else{
                         res.send("invalid email or password")
                     }
@@ -204,5 +209,24 @@ app.post('/getmusictrend', async function(req,res){
         })
     }catch(err){
         console.log("error: "+err)
+    }
+})
+
+app.post('/playmusic',async function(req,res){
+    try{
+        console.log(req.body.songname)
+            pool.getConnection((err, connection) => {
+                if(err) throw err
+                console.log("connected as id "+connection.threadId);
+                connection.query("SELECT song_name,song_link,artist_name from SONGS S, ARTIST A where song_name='"+req.body.songname+"' and S.artist_id=A.artist_id;", (err,rows)=>{
+                    connection.release() //return the connection to pool
+                    console.log(rows)
+                    console.log(JSON.parse(JSON.stringify(rows)));
+                    let row=JSON.parse(JSON.stringify(rows));
+                    res.render(path+"/music.hbs",{song:row})
+                })
+        })
+    }catch(err){
+        console.log(err);
     }
 })
