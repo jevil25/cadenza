@@ -218,7 +218,7 @@ app.post('/playmusic',async function(req,res){
             pool.getConnection((err, connection) => {
                 if(err) throw err
                 console.log("connected as id "+connection.threadId);
-                connection.query("SELECT song_name,song_link,artist_name,song_pic_link from SONGS S, ARTIST A where song_name='"+req.body.songname+"' and S.artist_id=A.artist_id;", (err,rows)=>{
+                connection.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where song_name='"+req.body.songname+"' and S.artist_id=A.artist_id;", (err,rows)=>{
                     connection.release() //return the connection to pool
                     console.log(rows)
                     console.log(JSON.parse(JSON.stringify(rows)));
@@ -226,6 +226,24 @@ app.post('/playmusic',async function(req,res){
                     res.render(path+"/music.hbs",{song:row})
                 })
         })
+    }catch(err){
+        console.log(err);
+    }
+})
+
+app.post('/newsong',async function(req,res){
+    try{
+        pool.getConnection((err, connection) => {
+            if(err) throw err
+            console.log("connected as id "+connection.threadId);
+            connection.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
+                connection.release() //return the connection to pool
+                console.log(rows)
+                console.log(JSON.parse(JSON.stringify(rows)));
+                let row=JSON.parse(JSON.stringify(rows));
+                res.render(path+"/music.hbs",{song:row})
+            })
+    })
     }catch(err){
         console.log(err);
     }
