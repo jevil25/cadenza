@@ -9,23 +9,23 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="css/music.css">
 </head>
-<body>
-    <div class="navbar">
-        <div>
-            <img src="./images/cadenza logo.png" alt="logo" class="logo">
-        </div>
-        <div class="search">
-            <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
-        </div>
-    </div>
-    <main>
-        {{#each song}}
-            {{#if song_name}}
+{{#each song}}
+    {{#if song_name}}
+        <body onload='getlength("{{song_link}}");'>
+            <div class="navbar">
+                <div>
+                    <img src="./images/cadenza logo.png" alt="logo" class="logo">
+                </div>
+                <div class="search">
+                    <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
+                </div>
+            </div>
+            <main>
                 <div class="main">
                     <h1>{{song_name}}</h1><br>
                     <div class="text">
                         Artist: {{artist_name}} <br>
-                        Length:  2:47<br>
+                        Length:  <span id="length"></span><br>
                         Language: {{language}}<br>
                     </div>
                     <div class="player">
@@ -53,11 +53,30 @@
                     <a href="#" class="sideinfo">Story of my life</a>
                     <a href="#" class="sideinfo">Adore you</a>
                 </div>
-            {{/if}}
-        {{/each}}
-    </main>
-</body>
+            </main>
+        </body>
+    {{/if}}
+{{/each}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="js/music.js"></script>
+<script>
+        const time=document.createElement('audio');
+
+        function getlength(src){
+            time.src=src;
+            time.load();
+            updateTimer = setInterval(seekUpda, 1000);
+        }
+
+        function seekUpda(){
+            let length=document.getElementById("length");
+            const min=Math.floor(time.duration/60);
+            const sec=Math.floor(time.duration%60);
+            if(sec<10){
+                length.innerHTML=String(min + ":0" + sec);
+            }else
+                length.innerHTML=String(min + ":" + sec);
+        }
+</script>
 </html>
