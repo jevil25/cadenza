@@ -25,31 +25,17 @@ app.listen(3000,function(){
 });
 
 //MYSQL connection
-const pool=mysql.createPool({
-    connectionLimit : 10,
-    host            :'localhost',
-    user            :'root',
-    password        :'',
-    database        :'testcadenza'
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',    
+    database: 'testcadenza'
 })
-
-//Get all data
-pool.getConnection((err, connection) => {
-    if(err) throw err
-    console.log("connected as id "+connection.threadId);
-    
-    //query(sqlString,callback)
-
-    // connection.query('SELECT * from LOGIN_DETAILS', (err,rows)=>{
-    //     connection.release() //return the connection to pool
-
-    //     if(!err){
-    //         console,console.log(rows);
-    //     }else{
-    //         console.log(err);
-    //     }
-    // })
-})
+db.connect ((err) =>{
+    if(err){
+        throw err;
+    }
+    console.log('SQL Connected')
+});
 
 app.get('/',function(req,res){ 
     res.sendFile(path+"/index.html");
@@ -64,11 +50,8 @@ app.post('/signup', async function(req,res){
                 const premium=0;
             }
             const premium=req.body.Premium;
-            pool.getConnection((err, connection) => {
-                if(err) throw err
-                console.log("insertion at "+connection.threadId);
-                    connection.query('INSERT into login_details (email,password,fullname,number,premium) values (?);',[[req.body.email,req.body.password,req.body.fullName,req.body.phNumber,premium]], (err,rows)=>{
-                        connection.release() //return the connection to pool
+                    db.query('INSERT into login_details (email,password,fullname,number,premium) values (?);',[[req.body.email,req.body.password,req.body.fullName,req.body.phNumber,premium]], (err,rows)=>{
+                         //return the connection to pool
     
                         if(!err ){
                             // console.log(rows[0].password)s
@@ -76,7 +59,6 @@ app.post('/signup', async function(req,res){
                         }else{
                             res.send(err)
                         }
-                    })
                 })
         }else{
             res.send("passwords are not same");
@@ -98,52 +80,47 @@ app.post("/music",async function(req,res){//login verification
         let useremail;
         const email=req.body.email;
         const password=req.body.password;
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("check credentials at "+connection.threadId);
             if(containsOnlyNumbers(email)){
-                connection.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
-            
-                    if(rows[0] == undefined){
-                        res.send("invalid email or password")
-                    }
-                    app.set('view engine', 'hbs') //view engine for handlebars page
-                    if(!err && rows[0].password==password ){
-                        // console.log(rows[0].password)s
-                        connection.query('SELECT * from artist',[req.body.email], (err,rows)=>{
-                            connection.release() //return the connection to pool
-                            console.log(rows);
-                    
-                            app.set('view engine', 'hbs') //view engine for handlebars page
-                                res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
-                        })
-                    }else{
-                        res.send("invalid email or password")
-                    }
-                })
-            }
-            else{
-                connection.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
-                    
-                    if(rows[0] == undefined){
-                        res.send("invalid email or password")
-                    }
-                    app.set('view engine', 'hbs') //view engine for handlebars page
-                    if(!err && rows[0].password==password ){
-                        // console.log(rows[0].password)s
-                        connection.query('SELECT * from artist', (err,rows)=>{
-                            connection.release() //return the connection to pool
-                            console.log(rows);
-                    
-                            app.set('view engine', 'hbs') //view engine for handlebars page
-                                res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
-                        })
-                    }else{
-                        res.send("invalid email or password")
-                    }
-                })
-            }
-        });
+            db.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
+        
+                if(rows[0] == undefined){
+                    res.send("invalid email or password")
+                }
+                app.set('view engine', 'hbs') //view engine for handlebars page
+                if(!err && rows[0].password==password ){
+                    // console.log(rows[0].password)s
+                    db.query('SELECT * from artist',[req.body.email], (err,rows)=>{
+                        // console.log(rows);
+                
+                        app.set('view engine', 'hbs') //view engine for handlebars page
+                            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
+                    })
+                }else{
+                    res.send("invalid email or password")
+                }
+            })
+        }
+        else{
+            db.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
+                
+                if(rows[0] == undefined){
+                    res.send("invalid email or password")
+                }
+                app.set('view engine', 'hbs') //view engine for handlebars page
+                if(!err && rows[0].password==password ){
+                    // console.log(rows[0].password)s
+                    db.query('SELECT * from artist', (err,rows)=>{
+                         //return the connection to pool
+                        // console.log(rows);
+                
+                        app.set('view engine', 'hbs') //view engine for handlebars page
+                            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
+                    })
+                }else{
+                    res.send("invalid email or password")
+                }
+            })
+        }
     }catch(error){
             res.status(400).send("invalid email or password "+error);
         }
@@ -155,18 +132,14 @@ app.set('view engine', 'hbs') //view engine for handlebars page
 app.post('/getmusicglobal', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
-        console.log(req.body.songname)
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("connected as id "+connection.threadId);
-                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and s.chart_id=1;', (err,rows)=>{
-                    connection.release() //return the connection to pool
-                    console.log(rows)
-                    console.log(JSON.parse(JSON.stringify(rows)));
-                    let row=JSON.parse(JSON.stringify(rows));
-                    res.status(200).render(path+'/songs.hbs',{song:row})
-                })
-        })
+        // console.log(req.body.songname)
+            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and s.chart_id=1;', (err,rows)=>{
+                 //return the connection to pool
+                // console.log(rows)
+                // console.log(JSON.parse(JSON.stringify(rows)));
+                let row=JSON.parse(JSON.stringify(rows));
+                res.status(200).render(path+'/songs.hbs',{song:row})
+            })
     }catch(err){
         console.log("error: "+err)
     }
@@ -175,18 +148,14 @@ app.post('/getmusicglobal', async function(req,res){
 app.post('/getmusicindia', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
-        console.log(req.body.songname)
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("connected as id "+connection.threadId);
-                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=2', (err,rows)=>{
-                    connection.release() //return the connection to pool
-                    console.log(rows)
-                    console.log(JSON.parse(JSON.stringify(rows)));
-                    let row=JSON.parse(JSON.stringify(rows));
-                    res.status(200).render(path+'/songs.hbs',{song:row})
-                })
-        })
+        // console.log(req.body.songname)
+            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=2', (err,rows)=>{
+                 //return the connection to pool
+                // console.log(rows)
+                // console.log(JSON.parse(JSON.stringify(rows)));
+                let row=JSON.parse(JSON.stringify(rows));
+                res.status(200).render(path+'/songs.hbs',{song:row})
+            })
     }catch(err){
         console.log("error: "+err)
     }
@@ -195,18 +164,14 @@ app.post('/getmusicindia', async function(req,res){
 app.post('/getmusictrend', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
-        console.log(req.body.songname)
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("connected as id "+connection.threadId);
-                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=3', (err,rows)=>{
-                    connection.release() //return the connection to pool
-                    console.log(rows)
-                    console.log(JSON.parse(JSON.stringify(rows)));
-                    let row=JSON.parse(JSON.stringify(rows));
-                    res.status(200).render(path+'/songs.hbs',{song:row})
-                })
-        })
+        // console.log(req.body.songname)
+            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=3', (err,rows)=>{
+                 //return the connection to pool
+                // console.log(rows)
+                // console.log(JSON.parse(JSON.stringify(rows)));
+                let row=JSON.parse(JSON.stringify(rows));
+                res.status(200).render(path+'/songs.hbs',{song:row})
+            })
     }catch(err){
         console.log("error: "+err)
     }
@@ -214,18 +179,14 @@ app.post('/getmusictrend', async function(req,res){
 
 app.post('/playmusic',async function(req,res){
     try{
-        console.log(req.body.songname)
-            pool.getConnection((err, connection) => {
-                if(err) throw err
-                console.log("connected as id "+connection.threadId);
-                connection.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
-                    connection.release() //return the connection to pool
-                    console.log(rows)
-                    console.log(JSON.parse(JSON.stringify(rows)));
-                    let row=JSON.parse(JSON.stringify(rows));
-                    res.render(path+"/music.hbs",{song:row})
-                })
-        })
+        // console.log(req.body.songname)
+            db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
+                 //return the db to pool
+                // console.log(rows)
+                // console.log(JSON.parse(JSON.stringify(rows)));
+                let row=JSON.parse(JSON.stringify(rows));
+                res.render(path+"/music.hbs",{song:row})
+            })
     }catch(err){
         console.log(err);
     }
@@ -233,17 +194,13 @@ app.post('/playmusic',async function(req,res){
 
 app.post('/newsong',async function(req,res){
     try{
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("connected as id "+connection.threadId);
-            connection.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
-                connection.release() //return the connection to pool
-                console.log(rows)
-                console.log(JSON.parse(JSON.stringify(rows)));
-                let row=JSON.parse(JSON.stringify(rows));
-                res.render(path+"/music.hbs",{song:row})
-            })
-    })
+        db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
+             //return the connection to pool
+            // console.log(rows)
+            // console.log(JSON.parse(JSON.stringify(rows)));
+            let row=JSON.parse(JSON.stringify(rows));
+            res.render(path+"/music.hbs",{song:row})
+        })
     }catch(err){
         console.log(err);
     }
@@ -252,17 +209,13 @@ app.post('/newsong',async function(req,res){
 app.post('/getmusicartist', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
-        console.log(req.body.songname)
-        pool.getConnection((err, connection) => {
-            if(err) throw err
-            console.log("connected as id "+connection.threadId);
-                connection.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.artist_id=?',[req.body.artistid], (err,rows)=>{
-                    connection.release() //return the connection to pool
-                    console.log(rows)
-                    console.log(JSON.parse(JSON.stringify(rows)));
-                    let row=JSON.parse(JSON.stringify(rows));
-                    res.status(200).render(path+'/songs.hbs',{song:row})
-                })
+        // console.log(req.body.songname)
+        db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.artist_id=?',[req.body.artistid], (err,rows)=>{
+             //return the connection to pool
+            // console.log(rows)
+            // console.log(JSON.parse(JSON.stringify(rows)));
+            let row=JSON.parse(JSON.stringify(rows));
+            res.status(200).render(path+'/songs.hbs',{song:row})
         })
     }catch(err){
         console.log("error: "+err)
