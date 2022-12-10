@@ -37,6 +37,19 @@ db.connect ((err) =>{
     console.log('SQL Connected')
 });
 
+function home(res){
+    db.query('SELECT * from artist', (err,rows)=>{
+        // console.log(rows);
+
+        if(!err){
+            app.set('view engine', 'hbs') //view engine for handlebars page
+            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
+        }else{
+            console.log(err)
+        }
+    })
+}
+
 app.get('/',function(req,res){ 
     res.sendFile(path+"/index.html");
 });
@@ -89,12 +102,7 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    db.query('SELECT * from artist',[req.body.email], (err,rows)=>{
-                        // console.log(rows);
-                
-                        app.set('view engine', 'hbs') //view engine for handlebars page
-                            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
-                    })
+                    home(res);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -109,13 +117,7 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    db.query('SELECT * from artist', (err,rows)=>{
-                         //return the connection to pool
-                        // console.log(rows);
-                
-                        app.set('view engine', 'hbs') //view engine for handlebars page
-                            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
-                    })
+                    home(res);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -220,4 +222,8 @@ app.post('/getmusicartist', async function(req,res){
     }catch(err){
         console.log("error: "+err)
     }
+})
+
+app.post("/home",function(req,res){
+    home(res);
 })

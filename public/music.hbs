@@ -14,10 +14,18 @@
         <body onload='getlength("{{song_link}}");'>
             <div class="navbar">
                 <div>
-                    <button><img src="./images/cadenza logo.png" alt="logo" class="logo"></button>
+                    <form action="/home" method="post">
+                        <button><img src="./images/cadenza logo.png" alt="logo" class="logo"></button>
+                    </form>
                 </div>
                 <div class="search">
                     <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
+                </div>
+                <div>
+                    <form action="/lyrics" method="post">
+                        <input type="hidden" value="{{song_name}}" name="song_name">
+                        <button class="lyrics">Lyrics</button>
+                    </form>
                 </div>
             </div>
             <main>

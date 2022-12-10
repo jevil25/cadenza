@@ -22,7 +22,7 @@ body {
 .search{
   position: relative;
   top:20px;
-  left: 250px;
+  left: 150px;
 }
 
 .search-box{
@@ -211,4 +211,14 @@ i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
 button{
   background-color: transparent;
   border: transparent;
+}
+
+.lyrics{
+  background-color: white;
+  border: transparent;
+  padding:10px 30px;
+  border-radius: 20px;
+  position: relative;
+  left:150px;
+  top:20px;
 }
