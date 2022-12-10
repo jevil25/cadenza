@@ -13,12 +13,19 @@ const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql');//used connect to mysql db
 
 const app=express();
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname+'/public'));
 app.use(cookieParser());
 const path=__dirname + '/public';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(sessions({ //this the data sent and stored in brower cookie
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: 24*60*60*1000 },
+    resave: false 
+}));
 
 app.listen(3000,function(){
     console.log("Cadenza is live on 3000")
@@ -51,7 +58,11 @@ function home(res){
 }
 
 app.get('/',function(req,res){ 
-    res.sendFile(path+"/index.html");
+    if(req.session.userid){
+        home(res);
+    }else{
+        res.sendFile(path+"/main.html")
+    }
 });
 
 app.post('/signup', async function(req,res){
@@ -102,6 +113,7 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
+                    req.session.userid=req.body.email;
                     home(res);
                 }else{
                     res.send("invalid email or password")
@@ -226,4 +238,9 @@ app.post('/getmusicartist', async function(req,res){
 
 app.post("/home",function(req,res){
     home(res);
+})
+
+app.post("/logout",function(req,res){
+    req.session.destroy();
+    res.sendFile(path+"/main.html");
 })
