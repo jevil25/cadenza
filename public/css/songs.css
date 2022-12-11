@@ -59,10 +59,9 @@ button{
     top:120px;
 }
 
-tr{
-    border: 2px solid white;
-}
 
-td{
-    border: 2px solid white;;
+tr,td{
+    border: transparent;
+    border-bottom: 2px solid rgb(143, 143, 75);
+    padding: 15px;
 }

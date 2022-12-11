@@ -44,22 +44,26 @@ db.connect ((err) =>{
     console.log('SQL Connected')
 });
 
-function home(res){
+function home(res,req){
     db.query('SELECT * from artist', (err,rows)=>{
         // console.log(rows);
-
-        if(!err){
-            app.set('view engine', 'hbs') //view engine for handlebars page
-            res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows))});
-        }else{
-            console.log(err)
-        }
+        console.log(req.session.userid);
+        db.query('SELECT * from login_details where email='+req.session.userid+' or number='+req.session.userid+';',[req.session.userid], (err,rows1)=>{
+            // console.log(rows);
+            if(!err){
+                app.set('view engine', 'hbs') //view engine for handlebars page
+                console.log(JSON.parse(JSON.stringify(rows1)));
+                res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows)),login:JSON.parse(JSON.stringify(rows1))});
+            }else{
+                console.log(err)
+            }
+        })
     })
 }
 
 app.get('/',function(req,res){ 
     if(req.session.userid){
-        home(res);
+        home(res,req);
     }else{
         res.sendFile(path+"/main.html")
     }
@@ -97,8 +101,6 @@ function containsOnlyNumbers(str) {
     return /^[0-9]+$/.test(str);
   }
 
-
-
 app.post("/music",async function(req,res){//login verification
     try{
         let useremail;
@@ -114,7 +116,7 @@ app.post("/music",async function(req,res){//login verification
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
                     req.session.userid=req.body.email;
-                    home(res);
+                    home(res,req);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -129,7 +131,8 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    home(res);
+                    req.session.userid=req.body.email;
+                    home(res,req);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -194,10 +197,10 @@ app.post('/getmusictrend', async function(req,res){
 app.post('/playmusic',async function(req,res){
     try{
         // console.log(req.body.songname)
-            db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
+            db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
                  //return the db to pool
                 // console.log(rows)
-                // console.log(JSON.parse(JSON.stringify(rows)));
+                console.log(JSON.parse(JSON.stringify(rows)));
                 let row=JSON.parse(JSON.stringify(rows));
                 res.render(path+"/music.hbs",{song:row})
             })
@@ -220,6 +223,21 @@ app.post('/newsong',async function(req,res){
     }
 })
 
+app.post("/getlyrics",async function(req,res){
+    try{
+    db.query('SELECT lyrics,song_name from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
+        //return the connection to pool
+       // console.log(rows)
+       console.log(JSON.parse(JSON.stringify(rows)));
+       let row=JSON.parse(JSON.stringify(rows));
+       app.set('view engine', 'hbs');
+       res.status(200).render(path+"/lyrics.hbs",{song:row})
+   })
+}catch(err){
+    console.log("error: "+err)
+}
+})
+
 app.post('/getmusicartist', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
@@ -237,7 +255,7 @@ app.post('/getmusicartist', async function(req,res){
 })
 
 app.post("/home",function(req,res){
-    home(res);
+    home(res,req);
 })
 
 app.post("/logout",function(req,res){

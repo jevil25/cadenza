@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/music.css">
+    <title>Document</title>
+    <style>
+        pre,h3{
+            color: white;
+            font-size: large;
+            font-family:'Courier New', Courier, monospace;
+            margin-left: 20px;
+            letter-spacing: 0.05rem;
+        }
+        h3{
+            font-size: larger;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    {{#each song}}
+        <body>
+            <div class="navbar">
+                <div>
+                    <form action="/home" method="post">
+                        <button><img src="./images/cadenza logo.png" alt="logo" class="logo"></button>
+                    </form>
+                </div>
+            </div>
+            <h3>Lyrics of {{song_name}}</h3>
+            <pre>{{lyrics}}</pre>
+        </body>
+    {{/each}}
+</body>
+</html>

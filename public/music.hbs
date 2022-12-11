@@ -22,9 +22,9 @@
                     <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
                 </div>
                 <div>
-                    <form action="/lyrics" method="post">
-                        <input type="hidden" value="{{song_name}}" name="song_name">
-                        <button class="lyrics">Lyrics</button>
+                    <form method="post" action="/getlyrics">
+                        <button class="lyrics"> Click me!</button>
+                        <input type="hidden" value="{{song_id}}" name="id">
                     </form>
                 </div>
             </div>
@@ -50,6 +50,7 @@
                     </div>
                 </div>
                 <div class="right1">
+                    <div id="myModal" class="modal"></div>
                     <div class="music_image frame1">
                         <img src="{{song_pic_link}}" alt="albumpic" class="pic">
                     </div>

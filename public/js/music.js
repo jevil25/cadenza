@@ -118,3 +118,8 @@ function seekUpdate() {
     total_duration.innerHTML = durationMinutes + ":" + durationSeconds;
   }
 }
+
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
