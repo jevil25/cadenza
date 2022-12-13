@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/topmusicnew.css">
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -19,7 +20,9 @@
         {{#each login}}
             <h1 class="heading">Welcome {{fullname}}, <br> Supercharge your week with latest tracks on Cadenza<br></h1>
         {{/each}}
-        <div class="cards">
+        <div class="cards"  data-aos="fade-down"
+                            data-aos-easing="linear"
+                            data-aos-duration="750">
             <form action="/getmusicglobal" method="post">
                 <div class="card">
                     <div class="overlayer">
@@ -27,7 +30,7 @@
                     </div>
                     <img src="./images/albums/region_global_large.jpg" alt="">
                     <div class="title">
-                        <button>Global top 20</button>
+                        <button class="text">Global top 20</button>
                     </div>
                 </div>	
             </form>
@@ -38,7 +41,7 @@
                     </div>
                     <img src="./images/albums/region_in_large.jpg" alt="">
                     <div class="title">
-                        <button>India top 20</button>
+                        <button class="text">India top 20</button>
                     </div>
                 </div>
             </form>
@@ -50,7 +53,7 @@
                     </div>
                     <img src="./images/albums/region_global_large (2).jpg" alt="">
                     <div class="title">
-                        <button>Trending</button>
+                        <button class="text">Trending</button>
                     </div>
                 </div>
             </form>
@@ -62,13 +65,13 @@
             {{#each artist}}
                 {{#if artist_name}}
                     <form action="/getmusicartist" method="post">
-                        <div class="card">
+                        <div data-aos="fade-in" class="card">
                             <div class="overlayer">
                                 <button><i class="far fa-play-circle"></i></button>
                             </div>
                             <img src="{{artist_pic}}" alt="">
                             <div class="title">
-                                <button><input type="text" value="{{artist_id}}" name="artistid">{{artist_name}}</button>
+                                <button class="text"><input type="text" value="{{artist_id}}" name="artistid">{{artist_name}}</button>
                             </div>
                         </div>
                     </form>
@@ -76,5 +79,9 @@
             {{/each}}
         </div>
     </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
 </html>

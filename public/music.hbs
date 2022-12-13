@@ -19,7 +19,12 @@
                     </form>
                 </div>
                 <div class="search">
-                    <input type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:900;">
+                    <form action="/search" method="post">
+                        <input id="search-input" name="songname" type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:400;">
+                        {{#each info}}
+                            <li class="list-group-item p-3">{{songname}}</li>
+                        {{/each}}
+                    </form>
                 </div>
                 <div>
                     <form method="post" action="/getlyrics">

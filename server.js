@@ -47,12 +47,12 @@ db.connect ((err) =>{
 function home(res,req){
     db.query('SELECT * from artist', (err,rows)=>{
         // console.log(rows);
-        console.log(req.session.userid);
+        // console.log(req.session.userid);
         db.query('SELECT * from login_details where email="'+req.session.userid+'" or number="'+req.session.userid+'";', (err,rows1)=>{
             // console.log(rows);
             if(!err){
                 app.set('view engine', 'hbs') //view engine for handlebars page
-                console.log(JSON.parse(JSON.stringify(rows1)));
+                // console.log(JSON.parse(JSON.stringify(rows1)));
                 res.status(201).render(path+"/topmusicnew.hbs",{artist:JSON.parse(JSON.stringify(rows)),login:JSON.parse(JSON.stringify(rows1))});
             }else{
                 console.log(err)
@@ -197,13 +197,7 @@ app.post('/getmusictrend', async function(req,res){
 app.post('/playmusic',async function(req,res){
     try{
         // console.log(req.body.songname)
-            db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
-                 //return the db to pool
-                // console.log(rows)
-                console.log(JSON.parse(JSON.stringify(rows)));
-                let row=JSON.parse(JSON.stringify(rows));
-                res.render(path+"/music.hbs",{song:row})
-            })
+           getmusic(res,req);
     }catch(err){
         console.log(err);
     }
@@ -225,10 +219,11 @@ app.post('/newsong',async function(req,res){
 
 app.post("/getlyrics",async function(req,res){
     try{
+        // console.log(req.body.id)
     db.query('SELECT lyrics,song_name from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
        // console.log(rows)
-       console.log(JSON.parse(JSON.stringify(rows)));
+    //    console.log(JSON.parse(JSON.stringify(rows)));
        let row=JSON.parse(JSON.stringify(rows));
        app.set('view engine', 'hbs');
        res.status(200).render(path+"/lyrics.hbs",{song:row})
@@ -263,21 +258,21 @@ app.post("/logout",function(req,res){
     res.sendFile(path+"/main.html");
 })
 
-const axios = require("axios");
+app.post("/search",function(req,res){
+    // console.log(req.body.songname)
+    getmusic(res,req);
+})
 
-const options = {
-  method: 'GET',
-  url: 'https://shazam.p.rapidapi.com/search',
-  params: {term: 'As it was', locale: 'en-US', offset: '0', limit: '5'},
-  headers: {
-    'X-RapidAPI-Key': '56771b1038msh4fcce1759818d4cp1c84dfjsn739113462373',
-    'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-  }
-};
-
-axios.request(options).then(function (response) {
-	console.log(response.data);
-    const responsemusic=response.data;
-}).catch(function (error) {
-	console.error(error);
-});
+function getmusic(res,req){
+    db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
+        //return the db to pool
+       // console.log(rows)
+    //    console.log(JSON.parse(JSON.stringify(rows)));
+        db.query("select song_name from songs",(err,rows1)=>{
+            let row1=JSON.parse(JSON.stringify(rows1));
+            let row=JSON.parse(JSON.stringify(rows));
+            // console.log(row1);
+            res.render(path+"/music.hbs",{song:row,info:row1})
+        })
+   })
+}
