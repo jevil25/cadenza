@@ -9,14 +9,16 @@
     <style>
         pre,h3{
             color: white;
-            font-size: large;
-            font-family:'Courier New', Courier, monospace;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             margin-left: 20px;
             letter-spacing: 0.05rem;
+            text-align: center;
         }
         h3{
-            font-size: larger;
+            font-size: x-large;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid white;
         }
     </style>
 </head>
@@ -31,7 +33,7 @@
                 </div>
             </div>
             <h3>Lyrics of {{song_name}}</h3>
-            <pre>{{lyrics}}</pre>
+            <pre class="lyricsFont">{{lyrics}}</pre>
         </body>
     {{/each}}
 </body>

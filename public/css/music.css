@@ -3,6 +3,11 @@
   src: url(../body-grotesque.slim-bold.ttf);
 }
 
+@font-face {
+  font-family: 'statisfy';
+  src: url('../fonts/Satisfy/Satisfy-Regular.ttf');
+}
+
 body {
   background: black;
 }
@@ -274,4 +279,10 @@ button{
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity:1 ;}
+}
+
+.lyricsFont{
+  text-align: center;
+  font-family: 'statisfy';
+  font-size:x-large;
 }

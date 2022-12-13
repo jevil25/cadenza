@@ -48,7 +48,7 @@ function home(res,req){
     db.query('SELECT * from artist', (err,rows)=>{
         // console.log(rows);
         console.log(req.session.userid);
-        db.query('SELECT * from login_details where email='+req.session.userid+' or number='+req.session.userid+';',[req.session.userid], (err,rows1)=>{
+        db.query('SELECT * from login_details where email="'+req.session.userid+'" or number="'+req.session.userid+'";', (err,rows1)=>{
             // console.log(rows);
             if(!err){
                 app.set('view engine', 'hbs') //view engine for handlebars page
@@ -262,3 +262,22 @@ app.post("/logout",function(req,res){
     req.session.destroy();
     res.sendFile(path+"/main.html");
 })
+
+const axios = require("axios");
+
+const options = {
+  method: 'GET',
+  url: 'https://shazam.p.rapidapi.com/search',
+  params: {term: 'As it was', locale: 'en-US', offset: '0', limit: '5'},
+  headers: {
+    'X-RapidAPI-Key': '56771b1038msh4fcce1759818d4cp1c84dfjsn739113462373',
+    'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+  }
+};
+
+axios.request(options).then(function (response) {
+	console.log(response.data);
+    const responsemusic=response.data;
+}).catch(function (error) {
+	console.error(error);
+});

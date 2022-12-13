@@ -18,13 +18,13 @@
                 </div>
             <table width="100%">
                 <tr>
-                    <td width="(100/3)%">Song Name</td>
-                    <td width="(100/3)%">Artist</td>
-                    <td width="(100/3)%">Genre</td>
+                    <td width="(100/3)%" class="table_heading">TITLE</td>
+                    <td width="(100/3)%" class="table_heading">ARTIST</td>
+                    <td width="(100/3)%" class="table_heading">GENRE</td>
                 </tr>
             {{#each song}}
                 {{#if song_name}}
-                    <tr>
+                    <tr class="songList">
                         <td width="(100/3)%"><form action="/playmusic" method="post"><input type="text" value="{{song_name}}" name="songname" class="songname"><button>{{song_name}}</button></form></td>
                         <td width="(100/3)%">{{artist_name}}</td>
                         <td width="(100/3)%">{{genre_name}}</td>
