@@ -20,10 +20,16 @@
                 </div>
                 <div class="search">
                     <form action="/search" method="post">
-                        <input id="search-input" name="songname" type="search" class="search-box" placeholder="&#xf3eb; Search" style="font-family: 'FontAwesome';font-style: 'normal'; font-weight:400;">
-                        {{#each info}}
-                            <li class="list-group-item p-3">{{songname}}</li>
-                        {{/each}}
+                        <div class="wrapper">
+                            <div class="search-input">
+                                <a href="" target="_blank" hidden></a>
+                                <input type="text" class="search-box" placeholder="Type to search.." name="songname" autocomplete="off">
+                                <div class="autocom-box">
+                                <!-- here list are inserted from javascript -->
+                                <li>hii</li>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div>
@@ -95,4 +101,6 @@
                 length.innerHTML=String(min + ":" + sec);
         }
 </script>
+<script src="js/script.js"></script> 
+<script src="js/suggestions.js"></script> 
 </html>

@@ -302,3 +302,22 @@ footer{
   bottom: 0;
   width: 100%;
 }
+
+.autocom-box{
+  padding: 10px 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  background-color: white;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.autocom-box li{
+  list-style: none;
+  padding: 8px 17px;
+  width: 100%;
+  cursor: default;
+  border-radius: 3px;
+  display: none;
+}
