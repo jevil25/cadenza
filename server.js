@@ -220,7 +220,7 @@ app.post('/newsong',async function(req,res){
 app.post("/getlyrics",async function(req,res){
     try{
         // console.log(req.body.id)
-    db.query('SELECT lyrics,song_name from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
+    db.query('SELECT lyrics,song_name,song_link,song_pic_link from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
        // console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
