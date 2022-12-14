@@ -6,6 +6,8 @@ body{
 .main{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: relative;
+    bottom:70px;
 }
 
 .logo{
@@ -89,4 +91,16 @@ body{
     left: 120px;
     width: 20px;
     height: 20px;
+}
+
+footer{
+    color: white; 
+    text-align:center;
+    padding: 10px 0px;
+    margin: 20px 0px ;
+    margin-top: 40px;
+    border-top: 2px solid white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

@@ -62,14 +62,16 @@ button{
     width: 250px;
     height: auto;
     margin-left: 60px;
-    bottom:120px;
+    /* bottom:120px; */
     right:80px;
+    margin-bottom: 50px;
 }
 
 .heading{
     position: relative;
     top:120px;
     font-family: 'Dancing Script', cursive;
+    font-size: xx-large;
 }
 
 table{
@@ -99,4 +101,22 @@ tr,td{
 
 .songList:hover{
     background-color: rgb(39, 36, 36);
+}
+
+.artist_info{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+}
+
+.songTable{
+    margin-top: -70px;
+}
+
+footer{
+    color: white; 
+    text-align:center;
+    padding: 10px 0px;
+    margin: 20px 0px ;
+    margin-top: 40px;
+    border-top: 2px solid white;
 }

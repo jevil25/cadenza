@@ -143,3 +143,14 @@ input{
 	font-family: Georgia, 'Times New Roman', Times, serif;
 	border-bottom: 0.5px solid rgb(137, 125, 125);
 }
+
+footer{
+    color: white; 
+    text-align:center;
+    padding: 10px 0px;
+    margin: 20px 0px ;
+    margin-top: 40px;
+    border-top: 2px solid white;
+	margin-bottom: -40px;
+	padding-bottom: 0px;
+}

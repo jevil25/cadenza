@@ -113,6 +113,7 @@ app.post("/music",async function(req,res){//login verification
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
+                // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
                     req.session.userid=req.body.email;
@@ -224,9 +225,19 @@ app.post("/getlyrics",async function(req,res){
         //return the connection to pool
        // console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
-       let row=JSON.parse(JSON.stringify(rows));
-       app.set('view engine', 'hbs');
+    if(rows[0]==undefined){
+        db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
+                let row1=JSON.parse(JSON.stringify(rows));
+                row1[0].song_name=row1[0].song_name+" is unavailable, Sorry for the inconvenience";
+                // console.log(row1[0].song_name);
+                app.set('view engine', 'hbs');
+                res.status(200).render(path+"/lyrics.hbs",{song:row1})
+        })
+    }else{
+        let row=JSON.parse(JSON.stringify(rows));
+        app.set('view engine', 'hbs');
        res.status(200).render(path+"/lyrics.hbs",{song:row})
+    }
    })
 }catch(err){
     console.log("error: "+err)
@@ -241,8 +252,11 @@ app.post('/getmusicartist', async function(req,res){
              //return the connection to pool
             // console.log(rows)
             // console.log(JSON.parse(JSON.stringify(rows)));
-            let row=JSON.parse(JSON.stringify(rows));
-            res.status(200).render(path+'/songs.hbs',{song:row})
+            db.query('Select artist_info,artist_pic,artist_name from ARTIST where artist_id=?',[req.body.artistid],(err,rows1)=>{
+                let row=JSON.parse(JSON.stringify(rows));
+                let row1=JSON.parse(JSON.stringify(rows1));
+                res.status(200).render(path+'/songs.hbs',{song:row,info:row1});
+            });
         })
     }catch(err){
         console.log("error: "+err)
@@ -272,7 +286,7 @@ function getmusic(res,req){
             let row1=JSON.parse(JSON.stringify(rows1));
             let row=JSON.parse(JSON.stringify(rows));
             // console.log(row1);
-            res.render(path+"/music.hbs",{song:row,info:row1})
+            res.render(path+"/music.hbs",{song:row})
         })
    })
 }

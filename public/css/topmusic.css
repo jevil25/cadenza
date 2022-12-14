@@ -110,3 +110,12 @@ body{
     padding: 10px 20px;
     border:transparent;
   }
+
+  footer{
+    color: white; 
+    text-align:center;
+    padding: 10px 0px;
+    margin: 20px 0px ;
+    margin-top: 40px;
+    border-top: 2px solid white;
+}

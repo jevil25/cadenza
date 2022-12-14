@@ -10,18 +10,30 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="heading">Songs</h1>
             <div>
                 <form action="/home" method="post">
                     <button><img src="./images/cadenza logo.png" alt="logo" class="logo"></button>
                 </form>
+            </div>
+            {{#each info}}
+                <div class="artist_info">
+                    <img src="{{artist_pic}}" alt="pic">
+                    <aside>
+                        <h3>{{artist_name}}</h3>
+                        <p>{{artist_info}}</p>
+                    </aside>
                 </div>
-            <table width="100%">
-                <tr>
-                    <td width="(100/3)%" class="table_heading">TITLE</td>
-                    <td width="(100/3)%" class="table_heading">ARTIST</td>
-                    <td width="(100/3)%" class="table_heading">GENRE</td>
-                </tr>
+             {{/each}}
+             <div class="songTable">
+                {{#each info}}
+                    <h1 class="heading">Songs of {{artist_name}}</h1><br><br><br><br><br><br>
+                {{/each}}
+                <table width="100%">
+                    <tr>
+                        <td width="(100/3)%" class="table_heading">TITLE</td>
+                        <td width="(100/3)%" class="table_heading">ARTIST</td>
+                        <td width="(100/3)%" class="table_heading">GENRE</td>
+                    </tr>
             {{#each song}}
                 {{#if song_name}}
                     <tr class="songList">
@@ -32,6 +44,10 @@
                 {{/if}}
             {{/each}}
             </table>
+        </div>
     </div>
+    <footer>
+        Made by Aaron Nazareth and Aaron Dsouza
+    </footer>
 </body>
 </html>

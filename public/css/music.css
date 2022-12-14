@@ -8,6 +8,11 @@
   src: url('../fonts/Satisfy/Satisfy-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'Courgette';
+  src: url('../fonts/Courgette/Courgette-Regular.ttf');
+}
+
 body {
   background: black;
 }
@@ -38,13 +43,14 @@ body {
 
 h1{
   color: white;
-  font-size: 70px;
+  font-size: 60px;
   width:600px;
   position: relative;
   left: 60px;
   top:-40px;
   font-weight: 100;
   letter-spacing: 0.20rem;
+  font-family: 'Courgette';
   /* font-family: "body-grotesque"; */
 }
 
@@ -76,8 +82,8 @@ main{
 
 .right1{
   position: relative;
-  right: 70px;
   bottom:30px;
+  left:10px;
 }
 
 .buttons {
@@ -285,4 +291,14 @@ button{
   text-align: center;
   font-family: 'statisfy';
   font-size:x-large;
+}
+
+footer{
+  color: white; 
+  text-align:center;
+  padding: 10px 0px;
+  border-top: 2px solid white;
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
 }
