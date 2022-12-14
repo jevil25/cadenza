@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/songs.css">
+    <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
+    <title>Admin</title>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <form action="/home" method="post">
+                <button><img src="./images/cadenza logo.png" alt="logo" class="logo" style="margin-bottom: 0px; position:relative; left:5px;"></button>
+            </form>
+        </div>
+        <div>
+            <form method="post" action="/home"><button class="userbtn" style="color: black;">User View</button></form>
+        </div>
+    </div>
+    <div class="main">
+        <h1 style="text-align: center; color:white; position:relative; top:-100px;">Operations</h1>
+        <div class="songTable">
+            <table width="100%">
+                <tr>
+                    <td width="25%" class="table_heading">TITLE</td>
+                    <td width="25%" class="table_heading">ARTIST</td>
+                    <td width="25%" class="table_heading">GENRE</td>
+                    <td width="25%" class="table_heading">Remove</td>
+                </tr>
+        {{#each info}}
+            {{#if song_name}}
+                <tr class="songList">
+                    <td width="25%"><form action="/playmusic" method="post"><input type="text" value="{{song_name}}" name="songname" class="songname"><button>{{song_name}}</button></form></td>
+                    <td width="25%">{{artist_name}}</td>
+                    <td width="25%">{{genre_name}}</td>
+                    <td width="25%">
+                        <form action="/delete" method="post">
+                            <input value="{{song_name}}" type="hidden">
+                            <button>
+                                <i class="fa-sharp fa-solid fa-trash" style="color: red;"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {{/if}}
+        {{/each}}
+        </table>
+    </div>
+    </div>
+</body>
+</html>

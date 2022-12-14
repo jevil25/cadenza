@@ -106,7 +106,25 @@ app.post("/music",async function(req,res){//login verification
         let useremail;
         const email=req.body.email;
         const password=req.body.password;
-            if(containsOnlyNumbers(email)){
+        if(email=="admin@cadenza.com"){
+            db.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
+        
+                if(rows[0] == undefined){
+                    res.send("invalid email or password")
+                }
+                app.set('view engine', 'hbs') //view engine for handlebars page
+                // console.log(rows[0].password + password)
+                if(!err && rows[0].password==password ){
+                    // console.log(rows[0].password)s
+                    req.session.userid=req.body.email;
+                    console.log(req.session.userid);
+                    // home(res,req);
+                    admin(res,req);
+                }else{
+                    res.send("invalid email or password")
+                }
+            })
+        }else if(containsOnlyNumbers(email)){
             db.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
         
                 if(rows[0] == undefined){
@@ -277,6 +295,12 @@ app.post("/search",function(req,res){
     getmusic(res,req);
 })
 
+app.delete("/delete",function(req,res){
+    db.query("delete from songs where song_name=?;",[req.body.songname], (err,rows)=>{
+        admin(req,res);
+    })
+})
+
 function getmusic(res,req){
     db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
         //return the db to pool
@@ -288,5 +312,15 @@ function getmusic(res,req){
             // console.log(row1);
             res.render(path+"/music.hbs",{song:row})
         })
+   })
+}
+
+function admin(res,req){
+    db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id;', (err,rows)=>{
+        //return the connection to pool
+       // console.log(rows)
+       // console.log(JSON.parse(JSON.stringify(rows)));
+       let row=JSON.parse(JSON.stringify(rows));
+       res.render(path+'/admin.hbs',{info:row});
    })
 }

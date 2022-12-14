@@ -1,0 +1,43 @@
+body{
+    background-color: black;
+}
+
+img{
+    width: 250px;
+    position: relative;
+    top:-20px;
+}
+
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+button{
+    background: transparent;
+    border: transparent;
+}
+
+.userbtn{
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    float: right;
+    margin-right: 30px;
+    margin-top: 30px;
+}
+
+.table_row{
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    border-bottom: 1px solid white;
+    margin-bottom: 2px;
+    width: 30%;
+}
+
+.viewbtn{
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
