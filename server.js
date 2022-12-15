@@ -309,7 +309,7 @@ app.post("/addsong",function(req,res){
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/images')
+      cb(null, './public/images/uploads')
     },
     filename: function (req, file, cb) {
         var ext=file.originalname.substring(file.originalname.lastIndexOf('.'));
@@ -318,11 +318,17 @@ var storage = multer.diskStorage({
   })
   
   var upload = multer({ storage: storage })
-  app.use('/uploads',express.static('./public/images'));
+  app.use('/uploads',express.static('./public/images/uploads'));
 
-app.post("/added",upload.fields(['songpic','artistpic','songfile']),function(req,res){
-    let files= req.file
-    console.log(files);
+app.post("/added",upload.fields([
+    { name: "songpic", maxCount: 1 },
+    { name: "artistpic", maxCount: 1 },
+    { name: "songfile", maxCount:1 }]),function(req,res){
+    let files= req.files
+    // console.log(files);
+    // console.log(files.songpic[0].destination+"/"+files.songpic[0].filename);
+    // console.log(files.songfile[0].destination+"/"+files.songfile[0].filename);
+    // console.log(files.artistpic[0].destination+"/"+files.artistpic[0].filename);
     // console.log(req.body.songname);
     // console.log(req.body.artistname);
     // console.log(req.body.songlang);
@@ -332,9 +338,33 @@ app.post("/added",upload.fields(['songpic','artistpic','songfile']),function(req
     // console.log(req.body.songfile);
     // console.log(req.body.songpic);
     // console.log(files.destination+"/"+files.filename)
-    db.query("SELECT max(song_id) from songs;",(err,maxsongid)=>{
-        db.query("SELECT max(artist_id) from artist;",(err,maxartistid)=>{
-
+    db.query("SELECT max(song_id) as songid from songs;",(err,maxsongid)=>{
+        db.query("SELECT max(artist_id) as artistid from artist;",(err,maxartistid)=>{
+            // console.log(JSON.parse(JSON.stringify(maxartistid))[0].artistid);
+            // console.log(JSON.parse(JSON.stringify(maxsongid))[0].songid);
+            const song_name=req.body.songname;
+            const song_id=JSON.parse(JSON.stringify(maxsongid))[0].songid+1;
+            const artist_id=JSON.parse(JSON.stringify(maxartistid))[0].artistid+1;
+            var song_link=files.songfile[0].destination+"/"+files.songfile[0].filename;
+            song_link = song_link.replace('/public','');
+            const genre_id=req.body.genre;
+            var song_pic_link=files.songfile[0].destination+"/"+files.songfile[0].filename;
+            song_pic_link = song_pic_link.replace('/public','');
+            const language=req.body.songlang;
+            const chart_id=req.body.chart;
+            var artist_pic=files.artistpic[0].destination+"/"+files.artistpic[0].filename;
+            artist_pic=artist_pic.replace("/public","");
+            // console.log(artist_pic);
+            db.query("insert into songs values (?);",[[song_name,song_id,artist_id,song_link,genre_id,song_pic_link,language,chart_id]],(err,final)=>{
+                console.log(final);
+                db.query("insert into artist values(?);",[[artist_id,req.body.artistname,artist_pic,"Arijit Singh (born 25 April 1987) is an Indian singer and music composer.[6][4][2] He sings predominantly in Bengali and Hindi, but has also performed in various other Indian languages.[7][8] He is the recipient of a National Award and six Filmfare Awards. He is often cited as one of the best singers in the Indian music industry, and has established a huge fan base throughout South Asia, predominantly in India, Pakistan, Bangladesh and Nepal. He is also known as the King of Playback Singing."]],(err,artistfinal)=>{
+                    console.log(artistfinal);
+                    db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
+                        console.log(finalfinal);
+                        admin(res,req);
+                    })
+                })
+            })
         })
     })
 })
