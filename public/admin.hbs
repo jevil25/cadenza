@@ -16,7 +16,8 @@
                 <button><img src="./images/cadenza logo.png" alt="logo" class="logo" style="margin-bottom: 0px; position:relative; left:5px;"></button>
             </form>
         </div>
-        <div>
+        <div class="btns">
+            <form method="post" action="/addsong"><button class="userbtn" style="color: black;">ADD SONG</button></form>
             <form method="post" action="/home"><button class="userbtn" style="color: black;">User View</button></form>
         </div>
     </div>
@@ -38,7 +39,7 @@
                     <td width="25%">{{genre_name}}</td>
                     <td width="25%">
                         <form action="/delete" method="post">
-                            <input value="{{song_name}}" type="hidden">
+                            <input value="{{song_name}}" type="text" name="songname" style="display: none; visibility:hidden;">
                             <button>
                                 <i class="fa-sharp fa-solid fa-trash" style="color: red;"></i>
                             </button>

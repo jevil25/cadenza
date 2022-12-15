@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/addSong.css">
+    <title>AddSong</title>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <form action="/home" method="post">
+                <button><img src="./images/cadenza logo.png" alt="logo" class="logo" style="margin-bottom: 0px; position:relative; left:5px;"></button>
+            </form>
+        </div>
+        <div class="btns">
+            <form method="post" action="/home"><button class="userbtn" style="color: black;">User View</button></form>
+        </div>
+    </div>
+    <div class="main">
+        <div class="form">
+            <h3>Song Info</h3>
+            <form action="/added" method="post" enctype="multipart/form-data">
+                Song Name: <input type="text" name="songname" class="input" autocomplete="off"><br>
+                Artist Name: <input type="text" name="artistname" class="input"><br>
+                Song Language: <input type="text" name="songlang" class="input"><br>
+                Song Genre: <select name="genre" id="" class="input">
+                    <option value="1">POP</option>
+                    <option value="2">SOUL</option>
+                    <option value="3">FUNK</option>
+                    <option value="4">ROMANTIC</option>
+                    <option value="6">REGGAETON</option>
+                    <option value="7">CHRISTMAS</option>
+                    <option value="8">SEASONAL</option>
+                    <option value="9">LATIN URBANO</option>
+                    <option value="10">DISCO</option>
+                    <option value="11">RAP</option>
+                </select><br>
+                Song Chart: <select name="chart" id="" class="input">
+                    <option value="1">Global</option>
+                    <option value="2">India</option>
+                    <option value="3">Trending</option>
+                </select><br>
+                Song Lyrics: <textarea type="text" name="songlyrics" class="input"></textarea><br>
+                Song file(mp3...etc): <input type="file" name="songfile" class="input file"><br>
+                Song Pic: <input type="file" name="songpic" class="input file"><br>
+                Artist Pic: <input type="file" name="artistpic" class="input file"><br>
+                <button class="addbtn">ADD</button>
+            </form>
+        </div>
+        <div class="image">
+            <img src="./images/austin-neill-247047-unsplash.jpg" class="sideImage" alt="">
+        </div>
+    </div>
+</body>
+</html>

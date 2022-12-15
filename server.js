@@ -295,9 +295,47 @@ app.post("/search",function(req,res){
     getmusic(res,req);
 })
 
-app.delete("/delete",function(req,res){
+app.post("/delete",function(req,res){
+    console.log(req.body.songname);
     db.query("delete from songs where song_name=?;",[req.body.songname], (err,rows)=>{
-        admin(req,res);
+        console.log(rows);
+        admin(res,req);
+    })
+})
+
+app.post("/addsong",function(req,res){
+    res.sendFile(path+"/addSong.html");
+})
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/images')
+    },
+    filename: function (req, file, cb) {
+        var ext=file.originalname.substring(file.originalname.lastIndexOf('.'));
+      cb(null, file.fieldname+'-'+Date.now()+ext);
+    }
+  })
+  
+  var upload = multer({ storage: storage })
+  app.use('/uploads',express.static('./public/images'));
+
+app.post("/added",upload.fields(['songpic','artistpic','songfile']),function(req,res){
+    let files= req.file
+    console.log(files);
+    // console.log(req.body.songname);
+    // console.log(req.body.artistname);
+    // console.log(req.body.songlang);
+    // console.log(req.body.genre);
+    // console.log(req.body.chart);
+    // console.log(req.body.songlyrics);
+    // console.log(req.body.songfile);
+    // console.log(req.body.songpic);
+    // console.log(files.destination+"/"+files.filename)
+    db.query("SELECT max(song_id) from songs;",(err,maxsongid)=>{
+        db.query("SELECT max(artist_id) from artist;",(err,maxartistid)=>{
+
+        })
     })
 })
 

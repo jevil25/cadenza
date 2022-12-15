@@ -1,5 +1,6 @@
 body{
     background-color: black;
+    overflow-x: hidden;
 }
 
 img{
@@ -40,4 +41,10 @@ button{
     background-color: white;
     border-radius: 20px;
     padding: 10px 20px;
+}
+
+.btns{
+    display: flex;
+    position: relative;
+    left:350px;
 }
