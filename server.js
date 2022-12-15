@@ -131,7 +131,7 @@ app.post("/music",async function(req,res){//login verification
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
-                console.log(rows[0].password + password)
+                // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
                     req.session.userid=req.body.email;
@@ -296,9 +296,9 @@ app.post("/search",function(req,res){
 })
 
 app.post("/delete",function(req,res){
-    console.log(req.body.songname);
+    // console.log(req.body.songname);
     db.query("delete from songs where song_name=?;",[req.body.songname], (err,rows)=>{
-        console.log(rows);
+        // console.log(rows);
         admin(res,req);
     })
 })
@@ -355,15 +355,32 @@ app.post("/added",upload.fields([
             var artist_pic=files.artistpic[0].destination+"/"+files.artistpic[0].filename;
             artist_pic=artist_pic.replace("/public","");
             // console.log(artist_pic);
-            db.query("insert into songs values (?);",[[song_name,song_id,artist_id,song_link,genre_id,song_pic_link,language,chart_id]],(err,final)=>{
-                console.log(final);
-                db.query("insert into artist values(?);",[[artist_id,req.body.artistname,artist_pic,""]],(err,artistfinal)=>{
-                    console.log(artistfinal);
-                    db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
-                        console.log(finalfinal);
-                        admin(res,req);
+            db.query("SELECT EXISTS(SELECT * FROM artist WHERE artist_name=?) as ans;",[req.body.artistname],(err,rowe)=>{
+                let ans=JSON.parse(JSON.stringify(rowe));
+                // console.log(ans[0].ans);
+                if(ans[0].ans==1){
+                    db.query('SELECT artist_id FROM artist WHERE artist_name=?;',[req.body.artistname],(err,name)=>{
+                        // console.log(name[0].artist_id)
+                        db.query("insert into songs values (?);",[[song_name,song_id,name[0].artist_id,song_link,genre_id,song_pic_link,language,chart_id]],(err,final)=>{
+                            // console.log(final);
+                            db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
+                                // console.log(finalfinal);
+                                admin(res,req);
+                            })
+                        })
                     })
-                })
+                }else{
+                    db.query("insert into songs values (?);",[[song_name,song_id,artist_id,song_link,genre_id,song_pic_link,language,chart_id]],(err,final)=>{
+                        // console.log(final);
+                        db.query("insert into artist values(?);",[[artist_id,req.body.artistname,artist_pic,req.body.artistlyrics]],(err,artistfinal)=>{
+                            // console.log(artistfinal);
+                            db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
+                                // console.log(finalfinal);
+                                admin(res,req);
+                            })
+                        })
+                    })
+                }
             })
         })
     })
