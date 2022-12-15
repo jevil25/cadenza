@@ -117,7 +117,7 @@ app.post("/music",async function(req,res){//login verification
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
                     req.session.userid=req.body.email;
-                    console.log(req.session.userid);
+                    // console.log(req.session.userid);
                     // home(res,req);
                     admin(res,req);
                 }else{
@@ -131,7 +131,7 @@ app.post("/music",async function(req,res){//login verification
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
-                // console.log(rows[0].password + password)
+                console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
                     req.session.userid=req.body.email;
@@ -149,7 +149,7 @@ app.post("/music",async function(req,res){//login verification
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
-                    // console.log(rows[0].password)s
+                    // console.log(rows[0].password)
                     req.session.userid=req.body.email;
                     home(res,req);
                 }else{
@@ -348,7 +348,7 @@ app.post("/added",upload.fields([
             var song_link=files.songfile[0].destination+"/"+files.songfile[0].filename;
             song_link = song_link.replace('/public','');
             const genre_id=req.body.genre;
-            var song_pic_link=files.songfile[0].destination+"/"+files.songfile[0].filename;
+            var song_pic_link=files.songpic[0].destination+"/"+files.songpic[0].filename;
             song_pic_link = song_pic_link.replace('/public','');
             const language=req.body.songlang;
             const chart_id=req.body.chart;
@@ -357,7 +357,7 @@ app.post("/added",upload.fields([
             // console.log(artist_pic);
             db.query("insert into songs values (?);",[[song_name,song_id,artist_id,song_link,genre_id,song_pic_link,language,chart_id]],(err,final)=>{
                 console.log(final);
-                db.query("insert into artist values(?);",[[artist_id,req.body.artistname,artist_pic,"Arijit Singh (born 25 April 1987) is an Indian singer and music composer.[6][4][2] He sings predominantly in Bengali and Hindi, but has also performed in various other Indian languages.[7][8] He is the recipient of a National Award and six Filmfare Awards. He is often cited as one of the best singers in the Indian music industry, and has established a huge fan base throughout South Asia, predominantly in India, Pakistan, Bangladesh and Nepal. He is also known as the King of Playback Singing."]],(err,artistfinal)=>{
+                db.query("insert into artist values(?);",[[artist_id,req.body.artistname,artist_pic,""]],(err,artistfinal)=>{
                     console.log(artistfinal);
                     db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
                         console.log(finalfinal);
