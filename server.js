@@ -32,11 +32,23 @@ app.listen(3000,function(){
 });
 
 //MYSQL connection
+// const db = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',    
+//     port: 3308,
+//     database: 'testcadenza'
+// })
+
+//online connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',    
-    database: 'testcadenza'
+    host: 'sql6.freemysqlhosting.net',
+    user: 'sql6587989', 
+    password: 'JJhMRkQR4n',   
+    port: 3306,
+    database: 'sql6587989'
 })
+
+
 db.connect ((err) =>{
     if(err){
         throw err;
@@ -107,7 +119,8 @@ app.post("/music",async function(req,res){//login verification
         const email=req.body.email;
         const password=req.body.password;
         if(email=="admin@cadenza.com"){
-            db.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
+                console.log(rows);
         
                 if(rows[0] == undefined){
                     res.send("invalid email or password")
@@ -125,7 +138,7 @@ app.post("/music",async function(req,res){//login verification
                 }
             })
         }else if(containsOnlyNumbers(email)){
-            db.query('SELECT * from LOGIN_DETAILS WHERE number = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE number = ?',[req.body.email], (err,rows)=>{
         
                 if(rows[0] == undefined){
                     res.send("invalid email or password")
@@ -142,7 +155,7 @@ app.post("/music",async function(req,res){//login verification
             })
         }
         else{
-            db.query('SELECT * from LOGIN_DETAILS WHERE email = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
                 
                 if(rows[0] == undefined){
                     res.send("invalid email or password")
@@ -169,7 +182,7 @@ app.post('/getmusicglobal', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
         // console.log(req.body.songname)
-            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and s.chart_id=1;', (err,rows)=>{
+            db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id and S.chart_id=1;', (err,rows)=>{
                  //return the connection to pool
                 // console.log(rows)
                 // console.log(JSON.parse(JSON.stringify(rows)));
@@ -185,7 +198,7 @@ app.post('/getmusicindia', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
         // console.log(req.body.songname)
-            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=2', (err,rows)=>{
+            db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and S.chart_id=2', (err,rows)=>{
                  //return the connection to pool
                 // console.log(rows)
                 // console.log(JSON.parse(JSON.stringify(rows)));
@@ -201,7 +214,7 @@ app.post('/getmusictrend', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
         // console.log(req.body.songname)
-            db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.chart_id=3', (err,rows)=>{
+            db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and S.chart_id=3', (err,rows)=>{
                  //return the connection to pool
                 // console.log(rows)
                 // console.log(JSON.parse(JSON.stringify(rows)));
@@ -224,7 +237,7 @@ app.post('/playmusic',async function(req,res){
 
 app.post('/newsong',async function(req,res){
     try{
-        db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from SONGS S, ARTIST A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
+        db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from songs S, artist A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
              //return the connection to pool
             // console.log(rows)
             // console.log(JSON.parse(JSON.stringify(rows)));
@@ -241,11 +254,12 @@ app.post("/getlyrics",async function(req,res){
         // console.log(req.body.id)
     db.query('SELECT lyrics,song_name,song_link,song_pic_link from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
-       // console.log(rows)
+    //    console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
     if(rows[0]==undefined){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
+                console.log(row1);
                 row1[0].song_name=row1[0].song_name+" is unavailable, Sorry for the inconvenience";
                 // console.log(row1[0].song_name);
                 app.set('view engine', 'hbs');
@@ -266,11 +280,11 @@ app.post('/getmusicartist', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
         // console.log(req.body.songname)
-        db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and s.artist_id=?',[req.body.artistid], (err,rows)=>{
+        db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and S.artist_id=?',[req.body.artistid], (err,rows)=>{
              //return the connection to pool
             // console.log(rows)
             // console.log(JSON.parse(JSON.stringify(rows)));
-            db.query('Select artist_info,artist_pic,artist_name from ARTIST where artist_id=?',[req.body.artistid],(err,rows1)=>{
+            db.query('Select artist_info,artist_pic,artist_name from artist where artist_id=?',[req.body.artistid],(err,rows1)=>{
                 let row=JSON.parse(JSON.stringify(rows));
                 let row1=JSON.parse(JSON.stringify(rows1));
                 res.status(200).render(path+'/songs.hbs',{song:row,info:row1});
@@ -387,7 +401,7 @@ app.post("/added",upload.fields([
 })
 
 function getmusic(res,req){
-    db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from SONGS S, ARTIST A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
+    db.query("SELECT song_name,song_link,artist_name,song_pic_link,language,song_id from songs S, artist A where song_name=? and S.artist_id=A.artist_id;",[req.body.songname], (err,rows)=>{
         //return the db to pool
        // console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
@@ -401,7 +415,7 @@ function getmusic(res,req){
 }
 
 function admin(res,req){
-    db.query('SELECT song_name,artist_name,genre_name from SONGS S,GENRE G,ARTIST A where S.genre_id=G.genre_id and A.artist_id=S.artist_id;', (err,rows)=>{
+    db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id;', (err,rows)=>{
         //return the connection to pool
        // console.log(rows)
        // console.log(JSON.parse(JSON.stringify(rows)));
