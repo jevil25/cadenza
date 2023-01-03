@@ -120,7 +120,7 @@ app.post("/music",async function(req,res){//login verification
         const password=req.body.password;
         if(email=="admin@cadenza.com"){
             db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
-                console.log(rows);
+                // console.log(rows);
         
                 if(rows[0] == undefined){
                     res.send("invalid email or password")
@@ -259,7 +259,7 @@ app.post("/getlyrics",async function(req,res){
     if(rows[0]==undefined){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
-                console.log(row1);
+                // console.log(row1);
                 row1[0].song_name=row1[0].song_name+" is unavailable, Sorry for the inconvenience";
                 // console.log(row1[0].song_name);
                 app.set('view engine', 'hbs');
@@ -280,6 +280,7 @@ app.post('/getmusicartist', async function(req,res){
     try{
         app.set('view engine', 'hbs') //view engine for handlebars page
         // console.log(req.body.songname)
+        // console.log(req.body.artistid);
         db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id  and S.artist_id=?',[req.body.artistid], (err,rows)=>{
              //return the connection to pool
             // console.log(rows)
