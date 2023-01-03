@@ -66,3 +66,68 @@ footer{
     margin-top: 40px;
     border-top: 2px solid white;
 }
+
+@media screen and (max-width:480px) {
+    #heading{
+        font-family: 'headingfont';
+        font-size: 250px;
+        color:white;
+        margin-left: 20px;
+        margin-top: 30px;
+    }
+    
+    body{
+        background-image: url("../images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.png");
+        background-repeat:no-repeat;
+        background-size: cover;
+        z-index: -1;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    
+    .text{
+        position: relative;
+        color: white;
+        font-size: xx-large;
+        font-weight: bolder;
+        left:65px;
+        top:100px;
+    }
+    
+    .button{
+        border-radius: 30px;
+        margin-top: 10px;
+        padding:7px 45px;
+        font-size: 15px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    
+    .buttons{
+        margin-top: 570px;
+        margin-left: 65px;
+        position: relative;
+        bottom: 300px;
+        display: flex;
+    }
+    
+    .logo{
+        z-index: 1;
+        width: 300px;
+        height: auto;
+        margin-left: 60px;
+        margin-top: 20px;
+    }
+    
+    .signupbtn{
+        padding-right: 36px;
+    }
+    
+    footer{
+        color: white; 
+        text-align:center;
+        padding: 10px 0px;
+        border-top: 2px solid white;
+        width: 480px;
+    }
+}
