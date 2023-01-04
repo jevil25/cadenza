@@ -116,6 +116,79 @@ footer{
     width: 100%;
 }
 
+
+@media screen and (max-width:1080px) {
+    .logo{
+        width: 250px;
+        position: relative;
+        top:100px;
+        left: 40px;
+    }
+
+    .symbols{
+        top: 200px;
+        left: 100px;
+    }
+
+    .login_form{
+        position: relative;
+        top:100px;
+        border-left: 1px solid white;
+        padding: 10px 30px;
+        margin: 0 -1em;
+        margin-top: 30px;
+    }
+
+    .button{
+        padding: 20px 150px;
+    }
+
+    .button::placeholder{
+        position: relative;
+        left: -130px;
+    }
+}
+
+@media screen and (max-width:880px) {
+    .logo{
+        width: 200px;
+        position: relative;
+        top:100px;
+        left: 40px;
+    }
+
+    .symbols{
+        top: 200px;
+        left: 70px;
+    }
+
+    .login_form{
+        position: relative;
+        top:100px;
+        border-left: 1px solid white;
+        padding: 10px 30px;
+        margin: 0 -1em;
+        margin-top: 30px;
+    }
+
+    .button{
+        padding: 20px 100px;
+    }
+
+    .button::placeholder{
+        position: relative;
+        left: -80px;
+    }
+
+    .submit_btn{
+        padding: 10px 20px;
+    }
+
+    .premium{
+        left:20px;
+    }
+}
+
 @media screen and (max-width:480px) {
     .main{
         display: flex;
@@ -192,7 +265,7 @@ footer{
         padding-top: 0px;
         margin-top: 10px;
         position: absolute;
-        bottom: 3vh;
+        bottom: 2vh;
         width: 100%;
     }
 }
@@ -277,4 +350,3 @@ footer{
         width: 100%;
     }
 }
-
