@@ -1,6 +1,6 @@
 body{
     background-color: black;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .main{
@@ -133,12 +133,15 @@ footer{
     .login_form{
         border-left: none;
         padding: 30px 0px;
-        margin: 0 10px;
-        top: 40px;
+        margin: 0 0;
+        top:125px;
     }
 
     .input1, .input2{
         padding: 10px 50px;
+        border-radius: 20px;
+        margin-left: 20px;
+        border: 1px solid white;
     }
 
     .submit_btn{
@@ -149,23 +152,17 @@ footer{
         border: transparent;
         font-size:x-large;
         padding: 10px 40px;
-        right: 20px;
-    }
-
-    .premium{
         position: relative;
-        left: 15px;
+        left: 25px;
     }
 
-    .button{
-        border: 1px solid white;
-        border-radius: 30px;
-        margin-bottom: 30px;
-        padding: 20px 90px;
+    .submit_btn:hover{
+        color: white;
+        background-color: black;
     }
 
     .button::placeholder{
-        font-size: 20px;
+        font-size: 15px;
         color: white;
         right: 0;
     }
@@ -181,7 +178,7 @@ footer{
 
     .symbols{
         position: absolute;
-        top: 95vh;
+        top: 90vh;
         left: 90px;
     }
 
@@ -192,89 +189,7 @@ footer{
         padding-top: 0px;
         margin-top: 10px;
         position: absolute;
-        bottom: 3vh;
-        width: 100%;
+        top: 85vh;
+        width: 100vw;
     }
 }
-
-@media screen and (max-width:480px) and (max-height: 800px) {
-    .main{
-        display: flex;
-        flex-direction: column;
-        bottom: 0px;
-    }
-
-    .logo{
-        width: 250px;
-        top:0px;
-        bottom: 0px;
-        left: 10px;
-    }
-
-    .login_form{
-        border-left: none;
-        padding: 30px 0px;
-        margin: 0 10px;
-        top: -30px;
-    }
-
-    .input1, .input2{
-        padding: 10px 50px;
-    }
-
-    .submit_btn{
-        margin-top: 30px;
-        background-color: white;
-        color: black;
-        border-radius: 30px;
-        border: transparent;
-        font-size:x-large;
-        padding: 10px 40px;
-        right: 20px;
-    }
-
-    .premium{
-        position: relative;
-        left: 15px;
-    }
-
-    .button{
-        border: 1px solid white;
-        border-radius: 30px;
-        margin-bottom: 30px;
-        padding: 20px 90px;
-    }
-
-    .button::placeholder{
-        font-size: 20px;
-        color: white;
-        right: 0;
-    }
-
-    input{
-        padding: 10px 30px;
-    }
-
-    .git{
-        margin-left: 25px;
-        color: white;
-    }
-
-    .symbols{
-        position: absolute;
-        top: 112vh;
-        left: 90px;
-    }
-
-    footer{
-        color: white; 
-        right: 10px;
-        border-top: 2px solid white;
-        padding-top: 0px;
-        margin-top: 10px;
-        position: absolute;
-        bottom: -15vh;
-        width: 100%;
-    }
-}
-
