@@ -167,6 +167,16 @@ footer{
 		height: 90%;
 	}
 
+	.overlayer .fa-play-circle {
+		color: #fff;
+		font-size: 73px;
+		margin-top: 50px;
+		transition: 100ms ease-in-out;
+		position: absolute;
+		top:170px;
+		right: -30px;
+	}
+
 	.heading{
 		font-size: x-large;
 	}

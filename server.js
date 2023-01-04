@@ -1,13 +1,10 @@
 //packages
 const express = require("express"); //interact with html file
 const bodyParser=require("body-parser"); //to get data from user
-const mongoose=require("mongoose"); //package to connect to db
-const bcrypt=require("bcryptjs");//package to hash the password (one way)
 const multer = require('multer');//package to upload and fetch images
 const fs=require("fs");//package to read files given by the user
 const hbs=require("express-handlebars");//used for hbs file soo as to use js componenets for displaying images
 // let global_id;//used to store id to retrieve images
-const {execSync} = require('child_process');//used to cause delays and sleeps
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql');//used connect to mysql db
