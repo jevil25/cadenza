@@ -84,9 +84,7 @@ body{
 }
 
 .symbols{
-    position: relative;
-    top:150px;
-    left:150px;
+    margin-top: 10px;
 }
 
 .premium{
@@ -107,16 +105,21 @@ body{
 footer{
     color: white; 
     text-align:center;
-    padding: 10px 0px;
     margin: 20px 0px ;
     margin-top: 40px;
     border-top: 2px solid white;
-    position: absolute;
+    position: relative;
+    top:35vh;
     bottom: 0;
-    width: 100%;
+    width: 100vw;
 }
 
-@media screen and (max-width:480px) {
+i{
+    color: white;
+    margin-left: 10px;
+}
+
+@media screen and (max-width:550px) {
     .main{
         display: flex;
         flex-direction: column;
@@ -176,12 +179,6 @@ footer{
         color: white;
     }
 
-    .symbols{
-        position: absolute;
-        top: 90vh;
-        left: 90px;
-    }
-
     footer{
         color: white; 
         right: 10px;
@@ -191,5 +188,82 @@ footer{
         position: absolute;
         top: 85vh;
         width: 100vw;
+    }
+}
+
+@media screen and (max-width:1124px) {
+    .logo{
+        width: 300px;
+    }
+
+    .button{
+        padding: 15px 90px;
+    }
+
+    .button::placeholder{
+        left: -70px;
+    }
+
+    .submit_btn{
+        padding:10px 20px;
+    }
+}
+
+@media screen and (max-width:840px) {
+    .logo{
+        width: 200px;
+        top:70px;
+    }
+
+    .button{
+        padding: 13px 70px;
+    }
+
+    .button::placeholder{
+        left: -40px;
+    }
+
+    .submit_btn{
+        padding:10px 20px;
+    }
+}
+
+@media screen and (max-width:700px) {
+    .logo{
+        width: 150px;
+        top:70px;
+    }
+
+    .button{
+        padding: 10px 60px;
+    }
+
+    .button::placeholder{
+        left: -40px;
+    }
+
+    .submit_btn{
+        padding:8px 15px;
+        left:20px;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .logo{
+        width: 130px;
+        top:70px;
+    }
+
+    .button{
+        padding: 10px 50px;
+    }
+
+    .button::placeholder{
+        left: -40px;
+    }
+
+    .submit_btn{
+        padding:8px 15px;
+        left:20px;
     }
 }
