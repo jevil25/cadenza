@@ -34,6 +34,17 @@ body{
     text-align: left;
 }
 
+.input1{
+    font-size: large;
+    padding: 20px 200px; 
+    margin-bottom: 40px;
+}
+
+.input2{
+    font-size: large; 
+    padding: 20px 200px;
+}
+
 .button::placeholder{
     position: relative;
     right:200px;
@@ -103,4 +114,74 @@ footer{
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+@media screen and (max-width:480px) {
+    .main{
+        display: flex;
+        flex-direction: column;
+        bottom: 0px;
+    }
+
+    .logo{
+        width: 250px;
+        top:0px;
+        bottom: 0px;
+        left: 10px;
+    }
+
+    .login_form{
+        border-left: none;
+        padding: 30px 0px;
+        margin: 0 0;
+        top:50px;
+    }
+
+    .input1, .input2{
+        padding: 10px 50px;
+    }
+
+    .submit_btn{
+        margin-top: 30px;
+        background-color: white;
+        color: black;
+        border-radius: 30px;
+        border: transparent;
+        font-size:x-large;
+        padding: 15px 40px;
+        position: relative;
+        left: 50px;
+    }
+
+    .button::placeholder{
+        font-size: 15px;
+        color: white;
+        right: 0;
+    }
+
+    input{
+        padding: 10px 30px;
+    }
+
+    .git{
+        margin-left: 25px;
+        color: white;
+    }
+
+    .symbols{
+        position: absolute;
+        top: 84vh;
+        left: 90px;
+    }
+
+    footer{
+        color: white; 
+        right: 10px;
+        border-top: 2px solid white;
+        padding-top: 0px;
+        margin-top: 10px;
+        position: absolute;
+        top: 80vh;
+        width: 100vw;
+    }
 }
