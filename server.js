@@ -8,6 +8,7 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql');//used connect to mysql db
+let song_id;
 
 const app=express();
 app.use(express.static(__dirname+'/public'));
@@ -234,10 +235,10 @@ app.post('/playmusic',async function(req,res){
 
 app.post('/newsong',async function(req,res){
     try{
-        db.query("SELECT song_name,song_link,artist_name,song_pic_link,language from songs S, artist A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
+        db.query("SELECT song_id,song_name,song_link,artist_name,song_pic_link,language from songs S, artist A where S.artist_id=A.artist_id order by rand() limit 1;", (err,rows)=>{
              //return the connection to pool
             // console.log(rows)
-            // console.log(JSON.parse(JSON.stringify(rows)));
+            console.log(JSON.parse(JSON.stringify(rows)));
             let row=JSON.parse(JSON.stringify(rows));
             res.render(path+"/music.hbs",{song:row})
         })
@@ -248,7 +249,10 @@ app.post('/newsong',async function(req,res){
 
 app.post("/getlyrics",async function(req,res){
     try{
-        // console.log(req.body.id)
+        // if(req.body.id==""){
+        //     req.body.id=song_id;
+        // }
+        console.log(req.body.id)
     db.query('SELECT lyrics,song_name,song_link,song_pic_link from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
     //    console.log(rows)
@@ -407,6 +411,7 @@ function getmusic(res,req){
             let row1=JSON.parse(JSON.stringify(rows1));
             let row=JSON.parse(JSON.stringify(rows));
             // console.log(row1);
+            song_id=row.song_id;
             res.render(path+"/music.hbs",{song:row})
         })
    })
