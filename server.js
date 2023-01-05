@@ -29,21 +29,21 @@ app.listen(3000,function(){
 });
 
 //MYSQL connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',    
-    port: 3308,
-    database: 'testcadenza'
-})
-
-//online connection
 // const db = mysql.createConnection({
-//     host: 'sql6.freemysqlhosting.net',
-//     user: 'sql6587989', 
-//     password: 'JJhMRkQR4n',   
-//     port: 3306,
-//     database: 'sql6587989'
+//     host: 'localhost',
+//     user: 'root',    
+//     port: 3308,
+//     database: 'testcadenza'
 // })
+
+// online connection
+const db = mysql.createConnection({
+    host: 'sql6.freemysqlhosting.net',
+    user: 'sql6588436', 
+    password: 'CFhUveQrAK',   
+    port: 3306,
+    database: 'sql6588436'
+})
 
 
 db.connect ((err) =>{
