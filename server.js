@@ -414,10 +414,9 @@ function getmusic(res,req){
        // console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
         db.query("select song_name from songs",(err,rows1)=>{
-            let row1=JSON.parse(JSON.stringify(rows1));
             let row=JSON.parse(JSON.stringify(rows));
             // console.log(row1);
-            song_id=row.song_id;
+            // song_id=row.song_id;
             res.render(path+"/music.hbs",{song:row})
         })
    })
