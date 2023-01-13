@@ -27,16 +27,16 @@
     {{#each song}}
         <body style="overflow-x: hidden;">
             <div class="navbar">
-                <div>
+                <div class="logo_grid">
                     <form action="/home" method="post">
                         <button><img src="./images/cadenza logo.png" alt="logo" class="logo"></button>
                     </form>
                 </div>
-                <div>
-                    <img src="{{song_pic_link}}" alt="pic" style="width: 150px; position:relative; left:143px;">
+                <div class="pic_grid">
+                    <img class="lyrics_pic" src="{{song_pic_link}}" alt="pic">
                 </div>
                 <div class="player" style="position: relative; top:20px; left:0px;">
-                        <div class="slider_container" style="position: relative; left:50px;">
+                        <div class="slider_container">
                             <div class="current-time">00:00</div>
                             <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
                             <div class="total-duration">00:00</div>
@@ -48,17 +48,56 @@
                         </div>
                     </div>
             </div>
-            <h3>Lyrics of {{song_name}}</h3>
+            <h3 class="lyrics_heading">Lyrics of {{song_name}}</h3>
             <pre class="lyricsFont">{{lyrics}}</pre>
     {{/each}}
     <footer >
         Made by Aaron Nazareth
+        <div class="symbols">
+            <a href="https://www.instagram.com/aaron_naz25/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+            <a href="https://www.linkedin.com/in/aaron-nazareth-6580311b6/"><i class="fa-brands fa-linkedin fa-xl git"></i></a>
+            <a href="https://github.com/jevil25"><i class="fa-brands fa-github fa-xl git"></i></a>
+        </div>
     </footer>
 </body>
 <style>
     .navbar{
          display: grid;
          grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .slider_container{
+        position: relative; 
+        left:50px;
+    }
+
+    @media screen and (max-width:800px) {
+        .navbar{
+            grid-template-rows: 90px 120px 90px;
+            grid-template-columns: none;
+            justify-content: center;
+            place-items: center;
+        }
+
+        .logo{
+            position: relative;
+            left: 0;
+            width: 200px;
+        }
+
+        .player{
+            position: unset;
+        }
+
+        .buttons{
+            left: 0;
+            right: 0;
+            bottom: 20px;
+        }
+
+        .slider_container{
+            left: 30px;
+        }
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>

@@ -24,11 +24,6 @@ body {
   top:-20px;
 }
 
-.navbar{
-  display: grid;
-  grid-template-columns: 1fr 1fr 300px; 
-}
-
 .search{
   position: relative;
   top:20px;
@@ -383,17 +378,6 @@ footer{
     flex-direction: row;
   }
 
-  .lyrics{
-    position: unset;
-  }
-
-  .lyrics_div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 60px;
-  }
-
   .buttons{
     left: 30px;
   }
@@ -425,4 +409,52 @@ footer{
   .music_image{
     margin-right: 60px;
   }
+}
+
+.lyrics_pic{
+  width: 150px; 
+  position:relative; 
+  left:143px;
+}
+
+.navbar{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media screen and (max-width:800px) {
+  .lyrics_pic{
+    position: unset;
+    width:100px;
+  }
+
+  .lyrics{
+    position: unset;
+  }
+
+  .lyricsFont{
+    font-size: large;
+    margin-left: 0px;
+    width: 90vw;
+    white-space: normal;
+  }
+
+  .lyrics_heading{
+    font-size: x-large;
+    width: 90vw;
+    right: 0;
+    margin-left: 0;
+  }
+
+  .lyrics_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 60px;
+  }
+}
+
+i{
+  color: white;
+  margin-top: 10px;
 }
