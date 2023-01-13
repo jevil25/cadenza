@@ -321,3 +321,107 @@ footer{
   border-radius: 3px;
   display: none;
 }
+
+@media screen and (max-width:600px) {
+  .main{
+    overflow-x: hidden;
+  }
+
+  .sidenav{
+    display: none;
+    visibility: hidden;
+  }
+
+  main{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .frame1 img{
+    width: 180px;
+  }
+
+  .frame1{
+    width:180px;
+    height: 180px;
+    margin-left: 0px;
+    margin-top: 30px;
+    border-bottom-width: 50px;
+  }
+
+  .right1{
+    display: flex;
+    justify-content: center;
+  }
+
+  .search{
+    display: none;
+    visibility: hidden;
+  }
+
+  .main h1{
+    font-size: 35px;
+    width:350px;
+    left:70px;
+  }
+
+  .text{
+    font-size: 25px;
+    position: relative;
+    left: 90px;
+  }
+
+  .logo{
+    position:unset;
+    width: 170px;
+  }
+
+  .navbar{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .lyrics{
+    position: unset;
+  }
+
+  .lyrics_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 60px;
+  }
+
+  .buttons{
+    left: 30px;
+  }
+
+  .footer{
+    position: absolute;
+    bottom:0px;
+  }
+}
+
+@media screen and (max-width:1200px) {
+  .sidenav{
+    display: none;
+    visibility: hidden;
+  }
+}
+
+@media screen and (max-width:800px) {
+  .search{
+    display: none;
+    visibility: hidden;
+  }
+
+  .main h1{
+    font-size: 50px;
+    width:400px;
+  }
+
+  .music_image{
+  }
+}

@@ -32,7 +32,7 @@
                         </div>
                     </form>
                 </div>
-                <div>
+                <div class="lyrics_div">
                     <form method="post" action="/getlyrics">
                         <button class="lyrics">Lyrics</button>
                         <input type="hidden" value="{{song_id}}" name="id">
@@ -40,31 +40,31 @@
                 </div>
             </div>
             <main>
-                <div class="main">
-                    <h1>{{song_name}}</h1><br>
-                    <div class="text">
-                        Artist: {{artist_name}} <br>
-                        Length:  <span id="length"></span><br>
-                        Language: {{language}}<br>
-                    </div>
-                    <div class="player">
-                        <div class="slider_container">
-                            <div class="current-time">00:00</div>
-                            <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
-                            <div class="total-duration">00:00</div>
+                    <div class="main">
+                        <h1>{{song_name}}</h1><br>
+                        <div class="text">
+                            Artist: {{artist_name}} <br>
+                            Length:  <span id="length"></span><br>
+                            Language: {{language}}<br>
                         </div>
-                        <div class="buttons">
-                            <div class="prev-track"><form action="/newsong" method="post"><button><i class="fa fa-step-backward fa-2x"></i></button></form></div>
-                            <div class="playpause-track" onclick="playpauseTrack('{{song_link}}')"><i class="fa fa-solid fa-play fa-3x"></i></div>
-                            <div class="next-track"><form action="/newsong" method="post"><button><i class="fa fa-step-forward fa-2x"></i></button></form></div>
+                        <div class="player">
+                            <div class="slider_container">
+                                <div class="current-time">00:00</div>
+                                <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+                                <div class="total-duration">00:00</div>
+                            </div>
+                            <div class="buttons">
+                                <div class="prev-track"><form action="/newsong" method="post"><button><i class="fa fa-step-backward fa-2x"></i></button></form></div>
+                                <div class="playpause-track" onclick="playpauseTrack('{{song_link}}')"><i class="fa fa-solid fa-play fa-3x"></i></div>
+                                <div class="next-track"><form action="/newsong" method="post"><button><i class="fa fa-step-forward fa-2x"></i></button></form></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="right1">
-                    <div class="music_image frame1">
-                        <img src="{{song_pic_link}}" alt="albumpic" class="pic">
+                    <div class="right1">
+                        <div class="music_image frame1">
+                            <img src="{{song_pic_link}}" alt="albumpic" class="pic">
+                        </div>
                     </div>
-                </div>
                 <div class="sidenav">
                     <span class="atext">More from the Artist</span>
                     <a href="#" class="sideinfo">Watermelon Sugar</a>
