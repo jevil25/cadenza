@@ -108,6 +108,27 @@ tr,td{
     grid-template-columns: 300px 1fr;
 }
 
+@media screen and (max-width:540px) {
+    .artist_info{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .artist_info p{
+        font-size: small;
+    }
+
+    .artist_pic{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .artist_pic img{
+        border-radius: 50%;
+    }
+}
+
 .songTable{
     margin-top: -70px;
 }
