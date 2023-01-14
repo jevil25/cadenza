@@ -43,13 +43,21 @@ app.listen(server_port, server_host, function() {
 //     database: 'testcadenza'
 // })
 
-// online connection
+// // online connection
+// const db = mysql.createConnection({
+//     host: 'sql6.freemysqlhosting.net',
+//     user: 'sql6588436', 
+//     password: 'CFhUveQrAK',   
+//     port: 3306,
+//     database: 'sql6588436'
+// })
+
 const db = mysql.createConnection({
-    host: 'sql6.freemysqlhosting.net',
-    user: 'sql6588436', 
-    password: 'CFhUveQrAK',   
+    host: 'bohhipq7ghzmcopzcdwp-mysql.services.clever-cloud.com',
+    user: 'un5u1musnl3hozfm', 
+    password: 'kFfsT3iKZTaBo1vWwkZm',   
     port: 3306,
-    database: 'sql6588436'
+    database: 'bohhipq7ghzmcopzcdwp'
 })
 
 
