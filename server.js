@@ -7,7 +7,7 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 // let global_id;//used to store id to retrieve images
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
-const mysql = require('mysql');//used connect to mysql db
+const mysql = require('mysql2');//used connect to mysql db
 let song_id;
 
 const app=express();
@@ -52,21 +52,14 @@ app.listen(server_port, server_host, function() {
 //     database: 'sql6588436'
 // })
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: 'bohhipq7ghzmcopzcdwp-mysql.services.clever-cloud.com',
     user: 'un5u1musnl3hozfm', 
     password: 'kFfsT3iKZTaBo1vWwkZm',   
     port: 3306,
     database: 'bohhipq7ghzmcopzcdwp'
-})
-
-
-db.connect ((err) =>{
-    if(err){
-        throw err;
-    }
-    console.log('SQL Connected')
 });
+
 
 const VISIT_TIMEOUT = 10 * 60 * 1000; // 10 minutes
 
@@ -82,7 +75,6 @@ app.use((req, res, next) => {
         delete req.session.lastVisited;
     }
 
-    db.close();
     next();
 });
 
