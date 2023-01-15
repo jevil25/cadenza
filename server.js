@@ -68,6 +68,23 @@ db.connect ((err) =>{
     console.log('SQL Connected')
 });
 
+const VISIT_TIMEOUT = 10 * 60 * 1000; // 10 minutes
+
+app.use((req, res, next) => {
+    const currentTime = Date.now();
+    // When the user first visits your pages
+    if (!req.session.lastVisited) {
+        req.session.lastVisited = currentTime;
+    }
+    // On every subsequent page load
+    if (currentTime - req.session.lastVisited > VISIT_TIMEOUT) {
+        // Perform cleanup tasks here
+        delete req.session.lastVisited;
+    }
+    next();
+});
+
+
 function home(res,req){
     db.query('SELECT * from artist', (err,rows)=>{
         // console.log(rows);
