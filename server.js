@@ -281,7 +281,7 @@ app.post("/getlyrics",async function(req,res){
     db.query('SELECT lyrics,song_name,song_link,song_pic_link from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
     //    console.log(rows)
-    //    console.log(JSON.parse(JSON.stringify(rows)));
+       console.log(JSON.parse(JSON.stringify(rows)));
     if(rows[0]==undefined){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
@@ -432,12 +432,11 @@ function getmusic(res,req){
         //return the db to pool
        // console.log(rows)
     //    console.log(JSON.parse(JSON.stringify(rows)));
-        db.query("select song_name from songs",(err,rows1)=>{
+        // db.query("select song_name from songs",(err,rows1)=>{
             let row=JSON.parse(JSON.stringify(rows));
             // console.log(row1);
             // song_id=row.song_id;
             res.render(path+"/music.hbs",{song:row})
-        })
    })
 }
 
