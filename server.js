@@ -145,7 +145,7 @@ app.post("/music",async function(req,res){//login verification
             db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
                 // console.log(rows);
         
-                if(rows[0] == undefined){
+                if(rows.length === 0){
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
@@ -163,7 +163,7 @@ app.post("/music",async function(req,res){//login verification
         }else if(containsOnlyNumbers(email)){
             db.query('SELECT * from login_details WHERE number = ?',[req.body.email], (err,rows)=>{
         
-                if(rows[0] == undefined){
+                if(rows.length === 0){
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
@@ -180,7 +180,7 @@ app.post("/music",async function(req,res){//login verification
         else{
             db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
                 
-                if(rows[0] == undefined){
+                if(rows.length === 0){
                     res.send("invalid email or password")
                 }
                 app.set('view engine', 'hbs') //view engine for handlebars page
@@ -282,7 +282,7 @@ app.post("/getlyrics",async function(req,res){
         //return the connection to pool
     //    console.log(rows)
        console.log(JSON.parse(JSON.stringify(rows)));
-    if(rows[0]==undefined){
+    if(rows.length === 0){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
                 // console.log(row1);
