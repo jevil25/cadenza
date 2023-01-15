@@ -81,6 +81,8 @@ app.use((req, res, next) => {
         // Perform cleanup tasks here
         delete req.session.lastVisited;
     }
+
+    db.close();
     next();
 });
 
