@@ -7,8 +7,9 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 // let global_id;//used to store id to retrieve images
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
+const RedisStore = require('connect-redis')(sessions);
 const mysql = require('mysql2');//used connect to mysql db
-let song_id;
+const redis = require("redis");
 
 const app=express();
 app.use(express.static(__dirname+'/public'));
@@ -18,11 +19,33 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(sessions({ //this the data sent and stored in brower cookie
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
-    cookie: { maxAge: 24*60*60*1000 },
-    resave: false 
+// app.use(sessions({ //this the data sent and stored in brower cookie
+//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+//     saveUninitialized:true,
+//     cookie: { maxAge: 24*60*60*1000 },
+//     resave: false 
+// }));
+
+const client = redis.createClient({
+    host: "localhost",
+    port: 6379,
+    legacyMode: true
+  });
+
+//-momery unleaked---------
+app.set('trust proxy', 1);
+
+app.use(sessions({
+    cookie:{
+        secure: true,
+        maxAge:60000
+        },
+    store: new RedisStore({
+        client: client
+    }),
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: false
 }));
 
 var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
