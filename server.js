@@ -9,7 +9,9 @@ const cookieParser = require("cookie-parser");//used to store cookies for user s
 const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql2');//used connect to mysql db
 const redis = require("redis");
+const RedisStore = require('connect-redis')(sessions);
 const cors=require('cors');
+const check=0;
 
 const app=express();
 app.use(express.static(__dirname+'/public'));
@@ -20,23 +22,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-// app.use(sessions({ //this the data sent and stored in brower cookie
-//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-//     saveUninitialized:true,
-//     cookie: { maxAge: 24*60*60*1000 },
-//     resave: false 
-// }));
-
-const client = redis.createClient({
-    host: "127.0.0.1",
-    port: 6379
-});
-
 var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 app.listen(server_port, server_host, function() {
     console.log('Cadenza is live on %d', server_port);
 });
+
+app.use(sessions({ //this the data sent and stored in brower cookie
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: 24*60*60*1000 },
+    resave: false 
+}));
+
+const { promisifyAll } = require('bluebird');
+
+promisifyAll(redis);
+// Connect to redis at 127.0.0.1 port 6379 no password.
+const client = redis.createClient();
+async function runApplication(){
+    await client.connect();
+};
+
+runApplication();
 
 //MYSQL connection
 // const db = mysql.createConnection({
@@ -63,18 +71,18 @@ const db = mysql.createPool({
     database: 'bohhipq7ghzmcopzcdwp'
 });
 
-function getOrSetCache(key, cb){
-    return new Promise((resolve,reject) => {
-        client.get(key, async (error,data) => {
-            if(error) return reject(error);
-            if(data != null) return resolve(JSON.parse(data));
-            const freshData = await cb();
-            client.setEx(key,-1,JSON.stringify(freshData), (error) => {
-                if(error) return reject(error);
-                resolve(freshData);
-            });            
-        })
-    })
+async function getOrSetCache(key, cb){
+    const getResult=await client.get(key);
+    console.log(getResult);
+    if(getResult){
+        return getResult;
+    }
+    const rs=await cb();
+    await client.set(key,rs);
+    const getRes=await client.get(key);
+    if(getRes){
+        return getRes;
+    }
 }
 
 
@@ -95,12 +103,12 @@ function home(res,req,cred){
     })
 }
 
-app.get('/',function(req,res){ 
-    const cred = getOrSetCache(req.body.email,() => {
-        return req.body.email;
-    })
-    if(cred){
-        home(res,req,cred);
+app.get('/',async function(req,res){ 
+    cred=null;
+    const keys=await client.keys('*');
+    console.log(keys);
+    if(keys.length!=0){
+        home(res,req,keys[0]);
     }else{
         res.sendFile(path+"/main.html")
     }
@@ -144,7 +152,7 @@ app.post("/music",async function(req,res){//login verification
         const email=req.body.email;
         const password=req.body.password;
         if(email=="admin@cadenza.com"){
-            db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE email = ?',[req.body.email],async (err,rows)=>{
                 // console.log(rows);
         
                 if(rows.length === 0){
@@ -154,7 +162,7 @@ app.post("/music",async function(req,res){//login verification
                 // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    const cred = getOrSetCache(req.body.email,() => {
+                    const cred = await getOrSetCache(req.body.email,() => {
                         return req.body.email;
                     })
                     // console.log(req.session.userid);
@@ -165,7 +173,7 @@ app.post("/music",async function(req,res){//login verification
                 }
             })
         }else if(containsOnlyNumbers(email)){
-            db.query('SELECT * from login_details WHERE number = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE number = ?',[req.body.email],async (err,rows)=>{
         
                 if(rows.length === 0){
                     res.send("invalid email or password")
@@ -174,9 +182,12 @@ app.post("/music",async function(req,res){//login verification
                 // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    const cred = getOrSetCache(req.body.email,() => {
+                    const cred = await getOrSetCache(req.body.email,async () => {
                         return req.body.email;
                     })
+                    // console.log(cred);
+                    // console.log("!");
+                    req.session.userid=cred;
                     home(res,req,cred);
                 }else{
                     res.send("invalid email or password")
@@ -184,7 +195,7 @@ app.post("/music",async function(req,res){//login verification
             })
         }
         else{
-            db.query('SELECT * from login_details WHERE email = ?',[req.body.email], (err,rows)=>{
+            db.query('SELECT * from login_details WHERE email = ?',[req.body.email],async (err,rows)=>{
                 
                 if(rows.length === 0){
                     res.send("invalid email or password")
@@ -192,9 +203,10 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)
-                    const cred = getOrSetCache(req.body.email,() => {
+                    const cred = await getOrSetCache(req.body.email,async () => {
                         return req.body.email;
                     })
+                    req.session.userid=cred;
                     home(res,req,cred);
                 }else{
                     res.send("invalid email or password")
@@ -331,10 +343,11 @@ app.post('/getmusicartist', async function(req,res){
 })
 
 app.post("/home",function(req,res){
-    home(res,req);
+    home(res,req,req.session.userid);
 })
 
 app.post("/logout",function(req,res){
+    client.DEL(req.session.userid);
     req.session.destroy();
     res.sendFile(path+"/main.html");
 })
