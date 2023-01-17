@@ -7,9 +7,9 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 // let global_id;//used to store id to retrieve images
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 const sessions = require('express-session');//used to create sessions
-const RedisStore = require('connect-redis')(sessions);
 const mysql = require('mysql2');//used connect to mysql db
 const redis = require("redis");
+const cors=require('cors');
 
 const app=express();
 app.use(express.static(__dirname+'/public'));
@@ -18,6 +18,7 @@ const path=__dirname + '/public';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 // app.use(sessions({ //this the data sent and stored in brower cookie
 //     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -27,36 +28,15 @@ app.use(express.json());
 // }));
 
 const client = redis.createClient({
-    host: "localhost",
-    port: 6379,
-    legacyMode: true
-  });
-
-//-momery unleaked---------
-app.set('trust proxy', 1);
-
-app.use(sessions({
-    cookie:{
-        secure: true,
-        maxAge:60000
-        },
-    store: new RedisStore({
-        client: client
-    }),
-    secret: 'secret',
-    saveUninitialized: true,
-    resave: false
-}));
+    host: "127.0.0.1",
+    port: 6379
+});
 
 var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 app.listen(server_port, server_host, function() {
-    console.log('Listening on port %d', server_port);
+    console.log('Cadenza is live on %d', server_port);
 });
-
-// app.listen(3000,function(){
-//     console.log("Cadenza is live on 3000")
-// });
 
 //MYSQL connection
 // const db = mysql.createConnection({
@@ -83,30 +63,26 @@ const db = mysql.createPool({
     database: 'bohhipq7ghzmcopzcdwp'
 });
 
-
-const VISIT_TIMEOUT = 10 * 60 * 1000; // 10 minutes
-
-app.use((req, res, next) => {
-    const currentTime = Date.now();
-    // When the user first visits your pages
-    if (!req.session.lastVisited) {
-        req.session.lastVisited = currentTime;
-    }
-    // On every subsequent page load
-    if (currentTime - req.session.lastVisited > VISIT_TIMEOUT) {
-        // Perform cleanup tasks here
-        delete req.session.lastVisited;
-    }
-
-    next();
-});
+function getOrSetCache(key, cb){
+    return new Promise((resolve,reject) => {
+        client.get(key, async (error,data) => {
+            if(error) return reject(error);
+            if(data != null) return resolve(JSON.parse(data));
+            const freshData = await cb();
+            client.setEx(key,-1,JSON.stringify(freshData), (error) => {
+                if(error) return reject(error);
+                resolve(freshData);
+            });            
+        })
+    })
+}
 
 
-function home(res,req){
+function home(res,req,cred){
     db.query('SELECT * from artist', (err,rows)=>{
         // console.log(rows);
         // console.log(req.session.userid);
-        db.query('SELECT * from login_details where email="'+req.session.userid+'" or number="'+req.session.userid+'";', (err,rows1)=>{
+        db.query('SELECT * from login_details where email="'+cred+'" or number="'+cred+'";', (err,rows1)=>{
             // console.log(rows);
             if(!err){
                 app.set('view engine', 'hbs') //view engine for handlebars page
@@ -120,8 +96,11 @@ function home(res,req){
 }
 
 app.get('/',function(req,res){ 
-    if(req.session.userid){
-        home(res,req);
+    const cred = getOrSetCache(req.body.email,() => {
+        return req.body.email;
+    })
+    if(cred){
+        home(res,req,cred);
     }else{
         res.sendFile(path+"/main.html")
     }
@@ -175,10 +154,12 @@ app.post("/music",async function(req,res){//login verification
                 // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    req.session.userid=req.body.email;
+                    const cred = getOrSetCache(req.body.email,() => {
+                        return req.body.email;
+                    })
                     // console.log(req.session.userid);
                     // home(res,req);
-                    admin(res,req);
+                    admin(res,req,cred);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -193,8 +174,10 @@ app.post("/music",async function(req,res){//login verification
                 // console.log(rows[0].password + password)
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)s
-                    req.session.userid=req.body.email;
-                    home(res,req);
+                    const cred = getOrSetCache(req.body.email,() => {
+                        return req.body.email;
+                    })
+                    home(res,req,cred);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -209,8 +192,10 @@ app.post("/music",async function(req,res){//login verification
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 if(!err && rows[0].password==password ){
                     // console.log(rows[0].password)
-                    req.session.userid=req.body.email;
-                    home(res,req);
+                    const cred = getOrSetCache(req.body.email,() => {
+                        return req.body.email;
+                    })
+                    home(res,req,cred);
                 }else{
                     res.send("invalid email or password")
                 }
@@ -363,7 +348,10 @@ app.post("/delete",function(req,res){
     // console.log(req.body.songname);
     db.query("delete from songs where song_name=?;",[req.body.songname], (err,rows)=>{
         // console.log(rows);
-        admin(res,req);
+        const cred = getOrSetCache(req.body.email,() => {
+            return req.body.email;
+        })
+        admin(res,req,cred);
     })
 })
 
@@ -429,7 +417,10 @@ app.post("/added",upload.fields([
                             // console.log(final);
                             db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
                                 // console.log(finalfinal);
-                                admin(res,req);
+                                const cred = getOrSetCache(req.body.email,() => {
+                                    return req.body.email;
+                                })
+                                admin(res,req,cred);
                             })
                         })
                     })
@@ -440,7 +431,10 @@ app.post("/added",upload.fields([
                             // console.log(artistfinal);
                             db.query("insert into lyrics values(?);",[[song_id,req.body.songlyrics]],(err,finalfinal)=>{
                                 // console.log(finalfinal);
-                                admin(res,req);
+                                const cred = getOrSetCache(req.body.email,() => {
+                                    return req.body.email;
+                                })
+                                admin(res,req,cred);
                             })
                         })
                     })
@@ -463,7 +457,7 @@ function getmusic(res,req){
    })
 }
 
-function admin(res,req){
+function admin(res,req,cred){
     db.query('SELECT song_name,artist_name,genre_name from songs S,genre G,artist A where S.genre_id=G.genre_id and A.artist_id=S.artist_id;', (err,rows)=>{
         //return the connection to pool
        // console.log(rows)
