@@ -39,7 +39,11 @@ const { promisifyAll } = require('bluebird');
 
 promisifyAll(redis);
 // Connect to redis at 127.0.0.1 port 6379 no password.
-const client = redis.createClient();
+const client = redis.createClient({
+    host: 'redis-11874.c89.us-east-1-3.ec2.cloud.redislabs.com',
+    port: 11874
+});
+
 async function runApplication(){
     await client.connect();
 };
