@@ -37,18 +37,26 @@ app.use(sessions({ //this the data sent and stored in brower cookie
 
 const { promisifyAll } = require('bluebird');
 
+const endpoint = process.env.REDIS_ENDPOINT_URL || "127.0.0.1:6379";
+const password = process.env.REDIS_PASSWORD || null;
+
 promisifyAll(redis);
 // Connect to redis at 127.0.0.1 port 6379 no password.
-const client = redis.createClient({
+// const client = redis.createClient({
+//     host: endpoint,
+//     password: password
+// });
+const Redis = require('ioredis');
+
+const client = new Redis({
     host: 'redis-11874.c89.us-east-1-3.ec2.cloud.redislabs.com',
-    port: 11874
+    port: 11874,
+    password: 'N7sXBUNN2LWlWa6hjeUaJqkJ05CNIo30'
 });
 
-async function runApplication(){
-    await client.connect();
-};
-
-runApplication();
+client.on('connect',()=>{
+    console.log("connected to redis");
+})
 
 //MYSQL connection
 // const db = mysql.createConnection({
