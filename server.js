@@ -316,8 +316,10 @@ app.post("/getlyrics",async function(req,res){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
                 // console.log(row1);
-                row1[0].song_name=row1[0].song_name+" is unavailable, Sorry for the inconvenience";
-                // console.log(row1[0].song_name);
+                if(rows.length != 0){
+                    row1[0].song_name=row1[0].song_name+" is unavailable, Sorry for the inconvenience";
+                    // console.log(row1[0].song_name);
+                }
                 app.set('view engine', 'hbs');
                 res.status(200).render(path+"/lyrics.hbs",{song:row1})
         })
