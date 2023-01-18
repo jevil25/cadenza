@@ -31,7 +31,7 @@ app.listen(server_port, server_host, function() {
 app.use(sessions({ //this the data sent and stored in brower cookie
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized:true,
-    cookie: { maxAge: 24*60*60*1000 },
+    cookie: { expires: 7*24*60*60*1000 },
     resave: false 
 }));
 
@@ -103,7 +103,7 @@ function home(res,req,cred){
         // console.log(rows);
         // console.log(req.session.userid);
         db.query('SELECT * from login_details where email="'+cred+'" or number="'+cred+'";', (err,rows1)=>{
-            // console.log(rows);
+            // console.log(rows1);
             if(!err){
                 app.set('view engine', 'hbs') //view engine for handlebars page
                 // console.log(JSON.parse(JSON.stringify(rows1)));
@@ -116,11 +116,10 @@ function home(res,req,cred){
 }
 
 app.get('/',async function(req,res){ 
-    cred=null;
-    const keys=await client.keys('*');
-    console.log(keys);
-    if(keys.length!=0){
-        home(res,req,keys[0]);
+    if(req.cookies.email){
+        // console.log(req.cookies);
+        // console.log(req.cookies.email);
+        home(res,req,req.cookies.email);
     }else{
         res.sendFile(path+"/main.html")
     }
@@ -200,6 +199,7 @@ app.post("/music",async function(req,res){//login verification
                     // console.log(cred);
                     // console.log("!");
                     req.session.userid=cred;
+                    res.cookie("email",cred);
                     home(res,req,cred);
                 }else{
                     res.send("invalid email or password")
@@ -220,8 +220,7 @@ app.post("/music",async function(req,res){//login verification
                     })
                     req.session.userid=cred;
                     home(res,req,cred);
-                }else{
-                    res.send("invalid email or password")
+                    res.cookie("email",cred);
                 }
             })
         }
@@ -354,12 +353,13 @@ app.post('/getmusicartist', async function(req,res){
     }
 })
 
-app.post("/home",function(req,res){
-    home(res,req,req.session.userid);
+app.post("/home",async function(req,res){
+    home(res,req,req.cookies.email);
 })
 
 app.post("/logout",function(req,res){
-    client.DEL(req.session.userid);
+    res.clearCookie('email');
+    client.del(req.session.userid);
     req.session.destroy();
     res.sendFile(path+"/main.html");
 })
@@ -467,6 +467,13 @@ app.post("/added",upload.fields([
             })
         })
     })
+})
+
+app.post('/exit',function (req,res){
+    db.end();
+    req.session.destroy();
+    client.end(true);
+    console.log("Connections closed");
 })
 
 function getmusic(res,req){
