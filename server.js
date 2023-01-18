@@ -2,16 +2,16 @@
 const express = require("express"); //interact with html file
 const bodyParser=require("body-parser"); //to get data from user
 const multer = require('multer');//package to upload and fetch images
-const fs=require("fs");//package to read files given by the user
+// const fs=require("fs");//package to read files given by the user
 const hbs=require("express-handlebars");//used for hbs file soo as to use js componenets for displaying images
 // let global_id;//used to store id to retrieve images
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
-const sessions = require('express-session');//used to create sessions
+// const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql2');//used connect to mysql db
 const redis = require("redis");
-const RedisStore = require('connect-redis')(sessions);
+// const RedisStore = require('connect-redis')(sessions);
 const cors=require('cors');
-const check=0;
+// const check=0;
 
 const app=express();
 app.use(express.static(__dirname+'/public'));
@@ -28,12 +28,12 @@ app.listen(server_port, server_host, function() {
     console.log('Cadenza is live on %d', server_port);
 });
 
-app.use(sessions({ //this the data sent and stored in brower cookie
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
-    cookie: { expires: 7*24*60*60*1000 },
-    resave: false 
-}));
+// app.use(sessions({ //this the data sent and stored in brower cookie
+//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+//     saveUninitialized:true,
+//     cookie: { expires: 7*24*60*60*1000 },
+//     resave: false 
+// }));
 
 const { promisifyAll } = require('bluebird');
 
@@ -198,7 +198,6 @@ app.post("/music",async function(req,res){//login verification
                     })
                     // console.log(cred);
                     // console.log("!");
-                    req.session.userid=cred;
                     res.cookie("email",cred);
                     home(res,req,cred);
                 }else{
@@ -218,7 +217,7 @@ app.post("/music",async function(req,res){//login verification
                     const cred = await getOrSetCache(req.body.email,async () => {
                         return req.body.email;
                     })
-                    req.session.userid=cred;
+                    res.cookie("email",cred);
                     home(res,req,cred);
                     res.cookie("email",cred);
                 }
@@ -359,8 +358,7 @@ app.post("/home",async function(req,res){
 
 app.post("/logout",function(req,res){
     res.clearCookie('email');
-    client.del(req.session.userid);
-    req.session.destroy();
+    client.del(req.cookies.email);
     res.sendFile(path+"/main.html");
 })
 
