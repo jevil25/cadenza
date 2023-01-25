@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+// require('dotenv').config()
+
 var server_port = process.env.YOUR_PORT || process.env.PORT || 3000;
 var server_host = process.env.YOUR_HOST || '0.0.0.0';
 app.listen(server_port, server_host, function() {
@@ -75,17 +77,20 @@ client.on('connect',()=>{
 //     database: 'sql6588436'
 // })
 
-const db = mysql.createPool({
-    host: 'bohhipq7ghzmcopzcdwp-mysql.services.clever-cloud.com',
-    user: 'un5u1musnl3hozfm', 
-    password: 'kFfsT3iKZTaBo1vWwkZm',   
-    port: 3306,
-    database: 'bohhipq7ghzmcopzcdwp'
-});
+// const db = mysql.createPool({
+//     host: 'bohhipq7ghzmcopzcdwp-mysql.services.clever-cloud.com',
+//     user: 'un5u1musnl3hozfm', 
+//     password: 'kFfsT3iKZTaBo1vWwkZm',   
+//     port: 3306,
+//     database: 'bohhipq7ghzmcopzcdwp'
+// });
+
+const db = mysql.createConnection('mysql://sc7j0zlke84i7soof3o0:pscale_pw_rfau708BkR44Evt27iB7d7Mdwh5PNYN1nTxCc7BPfJd@ap-south.connect.psdb.cloud/cadenza?ssl={"rejectUnauthorized":true}')
+console.log('Connected to PlanetScale!')
 
 async function getOrSetCache(key, cb){
     const getResult=await client.get(key);
-    console.log(getResult);
+    // console.log(getResult);
     if(getResult){
         return getResult;
     }
@@ -311,7 +316,7 @@ app.post("/getlyrics",async function(req,res){
     db.query('SELECT lyrics,song_name,song_link,song_pic_link from lyrics L,songs S where L.song_id=? and L.song_id=S.song_id',[req.body.id], (err,rows)=>{
         //return the connection to pool
     //    console.log(rows)
-       console.log(JSON.parse(JSON.stringify(rows)));
+    //    console.log(JSON.parse(JSON.stringify(rows)));
     if(rows.length === 0){
         db.query('Select * from songs where song_id=?',[req.body.id],(err,rows)=>{
                 let row1=JSON.parse(JSON.stringify(rows));
@@ -473,7 +478,7 @@ app.post('/exit',function (req,res){
     db.end();
     req.session.destroy();
     client.end(true);
-    console.log("Connections closed");
+    // console.log("Connections closed");
 })
 
 function getmusic(res,req){
