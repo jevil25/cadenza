@@ -8,9 +8,10 @@ const hbs=require("express-handlebars");//used for hbs file soo as to use js com
 const cookieParser = require("cookie-parser");//used to store cookies for user sessions
 // const sessions = require('express-session');//used to create sessions
 const mysql = require('mysql2');//used connect to mysql db
-const redis = require("redis");
+// const redis = require("redis");
 // const RedisStore = require('connect-redis')(sessions);
 const cors=require('cors');
+const Redis = require('ioredis');
 // const check=0;
 
 const app=express();
@@ -42,13 +43,12 @@ const { promisifyAll } = require('bluebird');
 const endpoint = process.env.REDIS_ENDPOINT_URL || "127.0.0.1:6379";
 const password = process.env.REDIS_PASSWORD || null;
 
-promisifyAll(redis);
+promisifyAll(Redis);
 // Connect to redis at 127.0.0.1 port 6379 no password.
 // const client = redis.createClient({
 //     host: endpoint,
 //     password: password
 // });
-const Redis = require('ioredis');
 
 const client = new Redis({
     host: 'redis-11874.c89.us-east-1-3.ec2.cloud.redislabs.com',
@@ -69,21 +69,6 @@ client.on('connect',()=>{
 // })
 
 // // online connection
-// const db = mysql.createConnection({
-//     host: 'sql6.freemysqlhosting.net',
-//     user: 'sql6588436', 
-//     password: 'CFhUveQrAK',   
-//     port: 3306,
-//     database: 'sql6588436'
-// })
-
-// const db = mysql.createPool({
-//     host: 'bohhipq7ghzmcopzcdwp-mysql.services.clever-cloud.com',
-//     user: 'un5u1musnl3hozfm', 
-//     password: 'kFfsT3iKZTaBo1vWwkZm',   
-//     port: 3306,
-//     database: 'bohhipq7ghzmcopzcdwp'
-// });
 
 const db = mysql.createConnection('mysql://sc7j0zlke84i7soof3o0:pscale_pw_rfau708BkR44Evt27iB7d7Mdwh5PNYN1nTxCc7BPfJd@ap-south.connect.psdb.cloud/cadenza?ssl={"rejectUnauthorized":true}')
 console.log('Connected to PlanetScale!')
