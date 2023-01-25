@@ -14,7 +14,7 @@
 
 body{
     position: relative;
-    background-image: url("../images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.png");
+    background-image: url("../images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.webp");
     background-repeat:no-repeat;
     background-size:100% 100vh;
     z-index: -1;
@@ -77,7 +77,7 @@ footer{
     }
     
     body{
-        background-image: url("../images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.png");
+        background-image: url("../images/Black\ and\ White\ Simple\ Dark\ Marketing\ Site\ Launch\ Website.webp");
         background-repeat:no-repeat;
         background-size: cover;
         z-index: -1;
