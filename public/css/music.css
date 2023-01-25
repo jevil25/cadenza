@@ -41,7 +41,7 @@ h1{
   font-size: 60px;
   width:600px;
   position: relative;
-  left: 60px;
+  text-align: center;
   top:-40px;
   font-weight: 100;
   letter-spacing: 0.20rem;
@@ -60,6 +60,8 @@ h1{
 main{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
 }
 
 .pic{
@@ -356,12 +358,6 @@ footer{
     visibility: hidden;
   }
 
-  .main h1{
-    font-size: 35px;
-    width:350px;
-    left:70px;
-  }
-
   .text{
     font-size: 25px;
     position: relative;
@@ -402,8 +398,8 @@ footer{
   }
 
   .main h1{
-    font-size: 50px;
-    width:400px;
+    font-size: 40px;
+    width:390px;
   }
 
   .music_image{
