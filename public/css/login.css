@@ -137,7 +137,7 @@ i{
         border-left: none;
         padding: 30px 0px;
         margin: 0 0;
-        top:125px;
+        top:50px;
     }
 
     .input1, .input2{
@@ -184,9 +184,7 @@ i{
         right: 10px;
         border-top: 2px solid white;
         padding-top: 0px;
-        margin-top: 10px;
-        position: absolute;
-        top: 85vh;
+        margin-top: 0px;
         width: 100vw;
     }
 }
@@ -250,16 +248,16 @@ i{
 
 @media screen and (max-width:600px) {
     .logo{
-        width: 130px;
-        top:70px;
+        width: 200px;
+        top:0px;
     }
 
     .button{
-        padding: 10px 50px;
+        padding: 10px 30px;
     }
 
     .button::placeholder{
-        left: -40px;
+        left: 0px;
     }
 
     .submit_btn{

@@ -288,7 +288,7 @@ footer{
         border-left: none;
         padding: 30px 0px;
         margin: 0 10px;
-        top: -30px;
+        left: 30px;
     }
 
     .input1, .input2{
@@ -315,13 +315,14 @@ footer{
         border: 1px solid white;
         border-radius: 30px;
         margin-bottom: 30px;
-        padding: 20px 90px;
+        padding: 10px 30px;
     }
 
     .button::placeholder{
         font-size: 20px;
         color: white;
         right: 0;
+        left: 0px;
     }
 
     input{
@@ -336,7 +337,7 @@ footer{
     .symbols{
         position: absolute;
         top: 112vh;
-        left: 90px;
+        left: 17vw;
     }
 
     footer{

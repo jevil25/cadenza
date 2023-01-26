@@ -42,7 +42,7 @@ h1{
   width:600px;
   position: relative;
   left: 60px;
-  top:-40px;
+  top:-34px;
   font-weight: 100;
   letter-spacing: 0.20rem;
   font-family: 'Courgette';
@@ -405,6 +405,7 @@ footer{
   .main h1{
     font-size: 40px;
     width:390px;
+    z-index: 100;
   }
 
   .music_image{
