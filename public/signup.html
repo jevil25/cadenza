@@ -8,6 +8,22 @@
     <title>Cadenza</title>
     <link rel="stylesheet" href="./css/signup.css">
     <script src="https://kit.fontawesome.com/99352e98c2.js" crossorigin="anonymous"></script>
+    <script>
+        let symbols=document.getElementsByClassName("symbols");
+        console.log(symbols)
+        function hideSymbols() {
+            for(let i = 0; i < symbols.length; i++) {
+                symbols[i].style.visibility = "hidden";
+                symbols[i].style.display = "none";
+            }
+        }
+        function showSymbols() {
+            for(let i = 0; i < symbols.length; i++) {
+                symbols[i].style.visibility = "visible";
+                symbols[i].style.display = "block";
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="main">
@@ -24,12 +40,12 @@
         <form action="/signup" method="post">
             <div class="login_form right">
                 <form action="/music" method="post">
-                    <input type="text" placeholder="Full Name" name="fullName" class="button" required autocomplete="off"><br>
-                    <input type="email" placeholder="Email" name="email" class="button" required autocomplete="off"><br>
-                    <input type="text" placeholder="Ph Number" name="phNumber" class="button" maxlength="10" required autocomplete="off"><br>
-                    <input type="password" placeholder="Password" name="password" class="button" required autocomplete="off"><br>
-                    <input type="password" placeholder="Confirm Password" name="confirm" class="button" required autocomplete="off"><br>
-                    <div class="premium">Premium</div> <input type="checkbox" name="Premium" id="checkbox" value="premium">
+                    <input onfocus="hideSymbols()" onblur="showSymbols()" type="text" placeholder="Full Name" name="fullName" class="button" required autocomplete="off"><br>
+                    <input onfocus="hideSymbols()" onblur="showSymbols()" type="email" placeholder="Email" name="email" class="button" required autocomplete="off"><br>
+                    <input onfocus="hideSymbols()" onblur="showSymbols()" type="text" placeholder="Ph Number" name="phNumber" class="button" maxlength="10" required autocomplete="off"><br>
+                    <input onfocus="hideSymbols()" onblur="showSymbols()" type="password" placeholder="Password" name="password" class="button" required autocomplete="off"><br>
+                    <input onfocus="hideSymbols()" onblur="showSymbols()" type="password" placeholder="Confirm Password" name="confirm" class="button" required autocomplete="off"><br>
+                    <div class="premium">Premium</div> <input onfocus="hideSymbols()" type="checkbox" name="Premium" id="checkbox" value="premium">
                     <button class="submit_btn">Submit</button>
                 </form>
             </div>
