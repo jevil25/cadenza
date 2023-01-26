@@ -117,8 +117,8 @@ app.get('/',async function(req,res){
 
 app.post('/signup', async function(req,res){
     try{
-        const password=req.body.password.trim();
-        const confirmpassword=req.body.confirm.trim();
+        const password=req.body.password;
+        const confirmpassword=req.body.confirm;
         if(password===confirmpassword){
             if(req.body.Premium!="premium"){
                 const premium=0;
@@ -152,8 +152,6 @@ app.post("/music",async function(req,res){//login verification
         let useremail;
         const email=req.body.email;
         const password=req.body.password;
-        email=email.trim();
-        password=password.trim();
         if(email=="admin@cadenza.com"){
             db.query('SELECT * from login_details WHERE email = ?',[req.body.email],async (err,rows)=>{
                 // console.log(rows);
