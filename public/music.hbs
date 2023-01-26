@@ -10,27 +10,29 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="css/music.css">
     <script>
-        const time=document.createElement('audio');
+        const time = document.createElement('audio');
+        time.preload = "auto";
 
         function getlength(src){
-            time.src=src;
+            time.src = src;
             time.load();
-            updateTimer = setInterval(seekUpda, 1000);
+            var start = performance.now();
+            time.addEventListener("durationchange", function() {
+                var end = performance.now();
+                console.log("Duration calculation took " + (end - start) + " milliseconds.");
+                updateTimer = setInterval(seekUpda, 1000);
+            }, false);
         }
 
-        au.addEventListener('loadedmetadata', function(){
-        // Obtain the duration in seconds of the audio file (with milliseconds as well, a float value)
-        var duration = time.duration;
-    },false);
-
         function seekUpda(){
-            let length=document.getElementById("length");
-            const min=Math.floor(time.duration/60);
-            const sec=Math.floor(time.duration%60);
-            if(sec<10){
-                length.innerHTML=String(min + ":0" + sec);
-            }else
-                length.innerHTML=String(min + ":" + sec);
+            let length = document.getElementById("length");
+            const min = Math.floor(time.duration / 60);
+            const sec = Math.floor(time.duration % 60);
+            if(sec < 10){
+                length.innerHTML = String(min + ":0" + sec);
+            }else {
+                length.innerHTML = String(min + ":" + sec);
+            }
         }
 </script>
 </head>
