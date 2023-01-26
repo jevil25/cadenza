@@ -180,6 +180,8 @@ i{
     }
 
     footer{
+        position: fixed;
+        top: 88vh;
         color: white; 
         right: 10px;
         border-top: 2px solid white;

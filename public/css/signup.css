@@ -346,8 +346,8 @@ footer{
         border-top: 2px solid white;
         padding-top: 0px;
         margin-top: 10px;
-        position: fixed;
-        bottom: 0vh;
+        position: relative;
+        bottom: -10vh;
         width: 100%;
     }
 }
