@@ -335,9 +335,9 @@ footer{
     }
 
     .symbols{
-        position: absolute;
-        top: 112vh;
-        left: 22vw;
+        position: relative;
+        top: 94vh;
+        left: 17vw;
     }
 
     footer{
